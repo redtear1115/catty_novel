@@ -35,9 +35,29 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Flexible authentication solution for Rails with Warden
+gem 'devise'
+# A simple and straightforward settings solution that uses an ERB enabled YAML file and a singleton design pattern.
+gem 'settingslogic'
+# Make Your Rails Console Awesome
+gem 'awesome_rails_console'
+# Optimized JSON
+gem 'oj'
+# Nokogiri (鋸) is a Rubygem providing HTML, XML, SAX, and Reader parsers with XPath and CSS selector support.
+gem 'nokogiri'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  # pry debug tool
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  # RSpec meta-gem that depends on the other components
+  gem "rspec"
+  gem "rspec-rails", '~> 3.5'
+  # Strategies for cleaning databases in Ruby.
+  gem 'database_cleaner', '~> 1.5'
 end
 
 group :development do
