@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   before_action :authenticate_user!
   
   def index
-    @novels = current_user.novels
+    @collections = current_user.collections
   end
   
   def read

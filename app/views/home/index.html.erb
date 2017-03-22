@@ -1,10 +1,25 @@
-<ul>
-  <% @novels.each do |novel| %>
-    <li>
-      <%= novel.name%> | 
-      <%= novel.author%> | 
-      <%= novel.chapters.count%> |
-      <a href="<%=read_path(novel_id: novel.id)%>">read</a>
-    </li>
+我的收藏:
+<table>
+  <tr>
+    <th>分類</th>
+    <th>作者</th>
+    <th>名稱</th>
+    <th>目前閱讀</th>
+    <th>最新章節</th>
+    <th>動作</th>
+  </tr>
+  <% @collections.each do |collection| %>
+    <tr>
+      <td><%= collection.novel.catgory%></td>
+      <td><%= collection.novel.author%></td>
+      <td><%= collection.novel.name%></td>
+      <td><%= collection.last_read_chapter%></td>
+      <td><%= collection.novel.chapters.count%></td>
+      <td>
+        <a href="<%=read_path(novel_id: collection.novel.id)%>">閱讀</a> |
+        移除 |
+        修改
+      </td>
+    </tr>
   <% end %>
-</ul>
+</table>
