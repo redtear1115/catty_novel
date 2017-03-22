@@ -1,2 +1,10 @@
-id: <%=@user.id%><br />
-email: <%=@user.email%>
+<ul>
+  <% @novels.each do |novel| %>
+    <li>
+      <%= novel.name%> | 
+      <%= novel.author%> | 
+      <%= novel.chapters.count%> |
+      <a href="<%=read_path(novel_id: novel.id)%>">read</a>
+    </li>
+  <% end %>
+</ul>

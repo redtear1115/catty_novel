@@ -1,0 +1,9 @@
+<div>正在閱讀... [<%=@novel.catgory%>] <%=@novel.author%> - <%=@novel.name%> (<%=@curr_chp_idx+1%>/<%=@novel.chapters.count%>)</div>
+<div>
+  <%= simple_format(@chapter.content)%>
+</div>
+<div>
+  <a href="<%=read_path(novel_id: @novel.id, chp_idx: @prev_chp_idx)%>"><%=@prev_chp_idx+1%></a> |
+  <strong><%=@curr_chp_idx+1%><strong> |
+  <a href="<%=read_path(novel_id: @novel.id, chp_idx: @next_chp_idx)%>"><%=@next_chp_idx+1%></a> |
+<div>
