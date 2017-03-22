@@ -19,32 +19,38 @@ class Novel < ApplicationRecord
     return self.chapters.count
   end
   
-  def target_urls(full=nil)
-    target_urls = []
-    return target_urls if source_page.nil?
+  def target_urls(full=false)
+    return [] if source_page.nil?
     self.update(last_sync_url: self.source_url) if self.last_sync_url.nil?
     
-    last_page_num = source_page.css('.pgt .pg .last').first.content.gsub(/\D/,'').to_i
-      
-    if full
-      need_to_sync_pages = last_page_num
-    else
-      splited_url = self.last_sync_url.split('-')
-      need_to_sync_pages = last_page_num - splited_url[2].to_i + 1
-    end
-    
-    need_to_sync_pages.times do |index|
+    last_page_num = get_last_page_num(source_page)
+    loop_times = full ? last_page_num : calc_loop_times(last_page_num)
+    calc_urls(loop_times)
+  end
+  
+  private 
+  def source_page
+    return nil if self.source_url.nil?
+    @source_page ||= Nokogiri::HTML(open(self.source_url))
+  end
+  
+  def get_last_page_num(source_page)
+    return source_page.css('.pgt .pg .last').first.content.gsub(/\D/,'').to_i
+  end
+  
+  def calc_loop_times(last_page_num)
+    splited_url = self.last_sync_url.split('-')
+    return last_page_num - splited_url[2].to_i + 1
+  end
+  
+  def calc_urls(loop_times)
+    target_urls = []
+    loop_times.times do |index|
       splited_url = self.last_sync_url.split('-')
       splited_url[2] = splited_url[2].to_i + index
       target_urls << splited_url.map(&:to_s).join('-')
     end
-    
     return target_urls
-  end
-  
-  def source_page
-    return nil if self.source_url.nil?
-    @source_page ||= Nokogiri::HTML(open(self.source_url))
   end
   
 end
