@@ -3,7 +3,7 @@ class CrawlNovelService
   def initialize
   end
   
-  def sync(novel, full=false)
+  def sync(source_host, pages=1)
     novel.update(last_sync_url: novel.source_url) if novel.last_sync_url.nil?
     target_urls(novel, full).each { |url| insert_chapter(novel, url) }
     return novel.chapters.count

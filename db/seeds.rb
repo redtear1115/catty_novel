@@ -5,3 +5,5 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+SourceHost.create(name: '卡提諾論壇::小說::長篇小說', url: 'https://ck101.com/forum-237-1.html')
