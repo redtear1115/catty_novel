@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20170323081802) do
     t.datetime "updated_at",     null: false
     t.string   "last_sync_url"
     t.integer  "source_host_id"
+    t.string   "status"
   end
 
   create_table "source_hosts", force: :cascade do |t|
