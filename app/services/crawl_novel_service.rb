@@ -15,7 +15,8 @@ class CrawlNovelService
     postlist = html.css('.titleBox .blockTitle a')
     postlist.each do |post|
       next unless is_novel?(post['title'])
-      novel = source_host.novels.find_or_create_by(source_url: post['href'])
+      source_url = post['href'].sub('http://', 'https://')
+      novel = source_host.novels.find_or_create_by(source_url: source_url)
       novel.update(get_attr(post['title']))
     end
     return nil

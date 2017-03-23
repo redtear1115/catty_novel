@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   before_action :authenticate_user!
   
   def index
-    @collections = current_user.collections
+    @collections = current_user.collections.order(updated_at: :desc)
   end
   
   def read
