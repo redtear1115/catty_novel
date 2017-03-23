@@ -1,3 +1,44 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#content {
+  background-color: #000000;
+  color: #F5F6CE;
+  width: 800px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#chp-nav {
+  background-color: #000000;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #A9BCF5;
+  width: 800px;
+  text-align: center;
+  a {
+    color: #A9BCF5;
+  }
+}
+
+#status_bar {
+  background-color: #A9BCF5;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 800px;
+}
+
+#menu-bar {
+  background-color: #A9BCF5;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 800px;
+  a {
+    color: #F2F5A9;
+  }
+}

@@ -32,7 +32,7 @@ development:
   username: postgres
 
   # The password associated with the postgres role (username).
-  password: <%= ENV['DATABASE_PASSWORD'] %>
+  password: 24373514
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -59,7 +59,7 @@ test:
   <<: *default
   database: catty_novel_test
   username: postgres
-  password: <%= ENV['DATABASE_PASSWORD'] %>
+  password: 24373514
   host: 127.0.0.1
 
 # As with config/secrets.yml, you never want to store sensitive information,
