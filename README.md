@@ -14,8 +14,10 @@ Host on heroku https://catty-novel-9487.herokuapp.com/
 ### Ruby Gemset
 * catty_novel
 
+### Scheduler
+* Automatically sync all novels on 00:00, 08:00, 16:00 UTC
+
 ### Future
-* background job to sync newest chapter
 * interface to enter new novels & collections
 * interface to search novels
 * using vue.js to render pages
