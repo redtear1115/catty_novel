@@ -1,4 +1,4 @@
-class Crawler
+class CrawlNovelService
   
   def initialize
   end

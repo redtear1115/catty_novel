@@ -1,4 +1,5 @@
 class Novel < ApplicationRecord
+  belongs_to :source_host
   has_many :collections
   has_many :chapters
   
