@@ -1,5 +1,5 @@
 <div id="chp-nav">
-  <span><a href="<%=read_path(novel_id: @novel.id, chp_idx: @prev_chp_idx)%>"><%=@prev_chp_idx+1%></a></span> | 
-  <span>[<%=@novel.catgory%>] <%=@novel.author%> - <%=@novel.name%> (<%=@curr_chp_idx+1%>/<%=@novel.chapters.count%>)</span> |
-  <span><a href="<%=read_path(novel_id: @novel.id, chp_idx: @next_chp_idx)%>"><%=@next_chp_idx+1%></a></span>
+  <a href="<%=read_path(novel_id: @novel.id, chp_idx: @prev_chp_idx)%>">上一章</a></span> | 
+  <span><%=@novel.name%> (<%=@curr_chp_idx+1%>/<%=@novel.chapters.count%>)</span> |
+  <a href="<%=read_path(novel_id: @novel.id, chp_idx: @next_chp_idx)%>">下一章</a></span>
 </div>

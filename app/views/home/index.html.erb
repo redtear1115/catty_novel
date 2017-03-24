@@ -1,25 +1,12 @@
-我的收藏:
+<h2>我的收藏</h2>
 <table>
+<% @collections.each do |collection| %>
   <tr>
-    <th>分類</th>
-    <th>作者</th>
-    <th>名稱</th>
-    <th>目前閱讀</th>
-    <th>最新章節</th>
-    <th>動作</th>
+    <td>[<%= collection.novel.catgory%>] <%= collection.novel.author%> - <%= collection.novel.name%> (<%= collection.last_read_chapter_idx%>/<%= collection.novel.chapters.count%>)</td>
+    <td class="colleciton-actions">
+      <a href="<%=read_path(novel_id: collection.novel.id)%>">閱讀</a> |
+      <a href="#">移除</a>
+    </td>
   </tr>
-  <% @collections.each do |collection| %>
-    <tr>
-      <td><%= collection.novel.catgory%></td>
-      <td><%= collection.novel.author%></td>
-      <td><%= collection.novel.name%></td>
-      <td><%= collection.last_read_chapter_idx%></td>
-      <td><%= collection.novel.chapters.count%></td>
-      <td>
-        <a href="<%=read_path(novel_id: collection.novel.id)%>">閱讀</a> |
-        移除 |
-        修改
-      </td>
-    </tr>
-  <% end %>
+<% end %>
 </table>
