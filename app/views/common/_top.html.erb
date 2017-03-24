@@ -1,0 +1,6 @@
+<div id="top">
+  <span><%=current_user.email%></span> |
+  <span><%=link_to('我的收藏', root_path)%></span> |
+  <span>圖書館</span> |
+  <span><%=link_to("登出", destroy_user_session_path, :method => :delete)%></span>
+</div>

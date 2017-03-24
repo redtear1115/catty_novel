@@ -9,13 +9,10 @@
   </head>
 
   <body>
-    <% if current_user.present? %>
-      <div id="menu-bar">
-        <%=link_to('Home', root_path)%> |
-        <%=current_user.email %> |
-        <%=link_to('Logout', destroy_user_session_path, :method => :delete)%>
-      </div>
-    <% end %>
-    <%= yield %>
+    <div id="container">
+      <%= render 'common/top' if current_user.present? %>
+      <%= yield %>
+      <%= render 'common/bottom' %>
+    </div>
   </body>
 </html>

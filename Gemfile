@@ -50,6 +50,11 @@ gem 'nokogiri'
 gem 'pg'
 # Simple, efficient background processing for Ruby
 gem 'sidekiq', '4.2.10'
+# Official Sass port of Bootstrap 2 and 3.
+gem 'bootstrap-sass', '~> 3.2.0'
+# Tool to parse CSS and add vendor prefixes to CSS rules
+gem 'autoprefixer-rails'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

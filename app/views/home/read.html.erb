@@ -1,4 +1,3 @@
-<div id="status_bar">正在閱讀... [<%=@novel.catgory%>] <%=@novel.author%> - <%=@novel.name%> (<%=@curr_chp_idx+1%>/<%=@novel.chapters.count%>)</div>
 <%= render "common/chp_nav" %>
 <div id="content">
   <%= simple_format(@chapter.content)%>
