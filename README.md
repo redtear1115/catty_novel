@@ -1,5 +1,5 @@
 # README
-Tool for reading ck101 novels.
+閱讀卡提諾論壇的精簡工具
 Host on heroku https://catty-novel-9487.herokuapp.com/
 
 ### OS
@@ -14,8 +14,9 @@ Host on heroku https://catty-novel-9487.herokuapp.com/
 ### Ruby Gemset
 * catty_novel
 
-### Scheduler
-* Automatically sync all novels on 00:00, 08:00, 16:00 UTC
+### 同步時程
+* 每天 [04:00 UTC] 同步卡提諾論壇::小說::長篇小說::第一頁的所有小說 (未啟用)
+* 每天 [00:00, 08:00, 16:00 UTC] 同步小說的最新章節
 
 ### Future
 * interface to enter new novels & collections

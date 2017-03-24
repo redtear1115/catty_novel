@@ -2,7 +2,7 @@
 # rake crawl:chapter
 
 namespace :crawl do
-  desc "This task is called by the Heroku scheduler add-on"
+  desc "sync novels from all source host"
   task :novel => :environment do
     SourceHost.all.each do |source_host|
       jid = CrawlNovelWorker.perform_async(source_host.url)
@@ -10,7 +10,7 @@ namespace :crawl do
     end
   end
   
-  desc "This task is called by the Heroku scheduler add-on"
+  desc "sync chapters from all novel"
   task :chapter => :environment do
     Novel.all.each do |novel|
       jid = CrawlChapterWorker.perform_async(novel.id)

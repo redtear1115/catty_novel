@@ -1,4 +1,6 @@
 class Novel < ApplicationRecord
+  after_create :init_chapter
+  
   belongs_to :source_host
   has_many :collections
   has_many :chapters
@@ -25,6 +27,10 @@ class Novel < ApplicationRecord
     prev_idx = array_idx == 0 ? 0 : array_idx - 1
     next_idx = array_idx == (self.chapter_index.count - 1) ? array_idx : array_idx + 1
     return { prev: prev_idx, curr: array_idx, next: next_idx }
+  end
+  
+  def init_chapter
+    CrawlChapterWorker.perform_async(self.id)
   end
     
 end
