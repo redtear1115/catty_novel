@@ -1,0 +1,11 @@
+<h2>圖書館</h2>
+<table>
+<% @novels.each do |novel| %>
+  <tr>
+    <td>[<%= novel.catgory%>] <%= novel.author%> - <%= novel.name%> (1/<%= novel.chapters.count%>)</td>
+    <td class="colleciton-actions">
+      <a href="<%=add_to_collection_path(novel_id: novel.id)%>">加入收藏</a>
+    </td>
+  </tr>
+<% end %>
+</table>

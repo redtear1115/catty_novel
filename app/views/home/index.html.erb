@@ -5,7 +5,7 @@
     <td>[<%= collection.novel.catgory%>] <%= collection.novel.author%> - <%= collection.novel.name%> (<%= collection.last_read_chapter_idx%>/<%= collection.novel.chapters.count%>)</td>
     <td class="colleciton-actions">
       <a href="<%=read_path(novel_id: collection.novel.id)%>">閱讀</a> |
-      <a href="#">移除</a>
+      <a href="<%=remove_collection_path(collection_id: collection.id)%>">移除</a>
     </td>
   </tr>
 <% end %>

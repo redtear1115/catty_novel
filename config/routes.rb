@@ -1,10 +1,18 @@
 Rails.application.routes.draw do
-  require 'sidekiq/web'
+  
   devise_for :users
+  
   authenticate :user do
+    require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'
   end
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  
   get 'read', to: 'home#read'
+  get 'library', to: 'home#library'
+  get 'add_to_collection', to: 'home#add_to_collection'
+  get 'remove_collection', to: 'home#remove_collection'
+  
+  # Keep root at the bottom
   root to: 'home#index'
+  
 end
