@@ -30,10 +30,6 @@ class HomeController < ApplicationController
     @collection.update(last_read_chapter: @chapter.id)
   end
   
-  def library
-    @novels = Novel.where.not(last_sync_url: nil).order(updated_at: :desc)
-  end
-  
   def add_to_collection
     novel = Novel.find_by(id: permitted_params[:novel_id])
     current_user.add_to_collection(novel) if novel

@@ -8,9 +8,10 @@ Rails.application.routes.draw do
   end
   
   get 'read', to: 'home#read'
-  get 'library', to: 'home#library'
   get 'add_to_collection', to: 'home#add_to_collection'
   get 'remove_collection', to: 'home#remove_collection'
+  
+  resources :novels
   
   # Keep root at the bottom
   root to: 'home#index'
