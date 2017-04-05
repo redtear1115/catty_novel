@@ -35,10 +35,10 @@ require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 require 'capistrano/puma'
 install_plugin Capistrano::Puma  # Default puma tasks
-install_plugin Capistrano::Puma::Monit  # if you need the monit tasks
+# install_plugin Capistrano::Puma::Monit  # if you need the monit tasks
 install_plugin Capistrano::Puma::Nginx  # if you want to upload a nginx site template
 require 'capistrano/sidekiq'
-require 'capistrano/sidekiq/monit'
+# require 'capistrano/sidekiq/monit'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

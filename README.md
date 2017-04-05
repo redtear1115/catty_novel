@@ -5,6 +5,15 @@ Host on heroku https://catty-novel-9487.herokuapp.com/
 ### OS
 * Ubuntu 14.04.5 LTS
 
+### Packages required
+* rvm
+* nodejs
+* postgresql-9.5
+* postgresql-server-dev-9.5
+* monit
+* nginx
+* redis-server
+
 ### Database
 * Postgres SQL 9.6.1
 
