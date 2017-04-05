@@ -8,6 +8,11 @@ class CrawlNovelService
     return source_host.novels.count
   end
   
+  def crawl_attrs(source_host, source_url)
+    html = Nokogiri::HTML(open(source_url))
+    binding.pry
+  end
+  
   private
   def insert_novel(source_host)
     temp = []

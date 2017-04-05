@@ -32,5 +32,22 @@ class Novel < ApplicationRecord
   def init_chapter
     CrawlChapterWorker.perform_async(self.id)
   end
+  
+  def create_by_url(current_user, source_url, source_host_id, add_to_collection)
+    sh = SourceHost.find_by(id: source_host_id)
+    return nil if sh.nil?
+    
+    cns = CrawlNovelService.new
+    novel_attrs = cns.crawl_attrs(sh, source_url)
+    
+    # move novel_attrs to self
+    self.save!
+    
+    if add_to_collection
+      current_user.add_to_collection(self)
+    end
+    
+    return self
+  end
     
 end

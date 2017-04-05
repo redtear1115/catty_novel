@@ -1,6 +1,13 @@
 <div id="operation">
 <%= form_tag novels_path do %>
+  <%= label_tag :source_host, '來源' %>
+  <%= select_tag :source_host_id, options_from_collection_for_select(@source_hosts, "id", "name") %>
+  <%= label_tag :add_to_collection, '加入收藏' %>
+  <%= check_box_tag :add_to_collection, true, true %>
+  <br>
   <%= label_tag :source_url, '網址' %>
   <%= text_field_tag :source_url %>
+  
+  <%= submit_tag '添加' %>
 <% end %>
 </div>

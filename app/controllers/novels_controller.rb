@@ -6,15 +6,21 @@ class NovelsController < ApplicationController
   end
   
   def new
+    @source_hosts = SourceHost.all
     @novel = Novel.new
   end
   
   def create
-    @novel = Novel.find_by(permitted_params)
+    source_url = permitted_params[:source_url]
+    source_host_id = permitted_params[:source_host_id]
+    add_to_collection = permitted_params[:add_to_collection]
+    
+    @novel = Novel.find_by(source_url: source_url, source_host_id: source_host_id)
     if @novel
       # message: already existed
     else
-      @novel.create(permitted_params)
+      @novel = Novel.new
+      @novel.create_by_url(current_user, source_url, source_host_id, add_to_collection)
     end
     
     redirect_to root_path
@@ -22,7 +28,7 @@ class NovelsController < ApplicationController
   
   private
   def permitted_params
-    params.require(:novel).permit(:source_url, :source_host_id)
+    params.permit(:source_url, :source_host_id, :add_to_collection)
   end
   
 end
