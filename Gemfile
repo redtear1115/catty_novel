@@ -54,6 +54,8 @@ gem 'sidekiq', '4.2.10'
 gem 'bootstrap-sass', '~> 3.2.0'
 # Tool to parse CSS and add vendor prefixes to CSS rules
 gem 'autoprefixer-rails'
+# A simple and straightforward settings solution that uses an ERB enabled YAML file and a singleton design pattern.
+gem 'settingslogic'
 
 
 group :development, :test do
@@ -71,8 +73,12 @@ group :development, :test do
 end
 
 group :development do
+  # Use Capistrano for deployment
   gem 'capistrano', '3.8.0'
-  
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano3-puma', require: false
+  gem 'capistrano-sidekiq', require: false
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.0.5'
