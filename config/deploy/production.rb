@@ -32,7 +32,7 @@ server '104.199.156.165', user: 'vfgcees', roles: %w{app db web}#, my_property: 
 # Feel free to add new variables to customise your setup.
 set :config_root, "/home/#{fetch(:user)}/ruby_configs/"
 set :config_dir, "#{fetch(:config_root)}#{fetch(:application)}/rails/"
-set :rvm_ruby_version, '2.3.1@creative-store'
+set :rvm_ruby_version, '2.3.3@catty_novel'
 
 
 # Custom SSH Options
@@ -43,11 +43,11 @@ set :rvm_ruby_version, '2.3.1@creative-store'
 #
 # Global options
 # --------------
-#  set :ssh_options, {
-#    keys: %w(/home/rlisowski/.ssh/id_rsa),
-#    forward_agent: false,
-#    auth_methods: %w(password)
-#  }
+set :ssh_options, {
+#   keys: %w(/home/rlisowski/.ssh/id_rsa),
+  forward_agent: true,
+#   auth_methods: %w(password)
+}
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
