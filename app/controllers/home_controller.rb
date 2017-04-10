@@ -15,6 +15,9 @@ class HomeController < ApplicationController
       else
         @chapter = @novel.chapters.find(@collection.last_read_chapter)
       end
+      setup_chp_idx(@novel.get_neighbors(@chapter.external_id))
+    elsif permitted_params[:chp_idx] == 'end_page'
+      redirect_to end_page_path
     else
       external_id = @novel.chapter_index[permitted_params[:chp_idx].to_i]
       if external_id.nil?
@@ -22,12 +25,11 @@ class HomeController < ApplicationController
       else
         @chapter = @novel.chapters.find_by(external_id: external_id)
       end
+      setup_chp_idx(@novel.get_neighbors(@chapter.external_id))
     end
-    hash = @novel.get_neighbors(@chapter.external_id)
-    @prev_chp_idx = hash[:prev]
-    @curr_chp_idx = hash[:curr]
-    @next_chp_idx = hash[:next]
-    @collection.update(last_read_chapter: @chapter.id)
+  end
+  
+  def end_page
   end
   
   def add_to_collection
@@ -42,13 +44,15 @@ class HomeController < ApplicationController
     redirect_to root_path
   end
   
-  def search
-    search_term = "%#{permitted_params[:search_term]}%"
-    @novels = Novel.where('name like ? OR author like ? OR catgory like ?', search_term, search_term, search_term)
-  end
-  
   private
   def permitted_params
     params.permit(:novel_id, :chp_idx, :collection_id)
+  end
+  
+  def setup_chp_idx(hash)
+    @prev_chp_idx = hash[:prev]
+    @curr_chp_idx = hash[:curr]
+    @next_chp_idx = hash[:next]
+    @collection.update(last_read_chapter: @chapter.id)
   end
 end

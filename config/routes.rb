@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
   
   get 'read', to: 'home#read'
+  get 'end_page', to: 'home#end_page'
   get 'add_to_collection', to: 'home#add_to_collection'
   get 'remove_collection', to: 'home#remove_collection'
   

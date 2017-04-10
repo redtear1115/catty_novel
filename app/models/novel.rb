@@ -24,10 +24,10 @@ class Novel < ApplicationRecord
   
   def get_neighbors(external_id)
     array_idx = self.chapter_index.index(external_id)
-    return { prev: 0, curr: 0, next: 1} if array_idx.nil?
+    return { prev: 'end_page', curr: 0, next: 1} if array_idx.nil?
     
-    prev_idx = array_idx == 0 ? 0 : array_idx - 1
-    next_idx = array_idx == (self.chapter_index.count - 1) ? array_idx : array_idx + 1
+    prev_idx = array_idx <= 0 ? 'end_page' : array_idx - 1
+    next_idx = array_idx >= (self.chapter_index.count - 1) ? 'end_page' : array_idx + 1
     return { prev: prev_idx, curr: array_idx, next: next_idx }
   end
   
