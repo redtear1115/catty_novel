@@ -42,6 +42,11 @@ class HomeController < ApplicationController
     redirect_to root_path
   end
   
+  def search
+    search_term = "%#{permitted_params[:search_term]}%"
+    @novels = Novel.where('name like ? OR author like ? OR catgory like ?', search_term, search_term, search_term)
+  end
+  
   private
   def permitted_params
     params.permit(:novel_id, :chp_idx, :collection_id)

@@ -1,0 +1,7 @@
+<div id="operation">
+  <%= form_tag search_result_path do %>
+    <%= label_tag :search_term, '關鍵字' %>
+    <%= text_field_tag :search_term, '', required: true, placeholder: '作者/書名/分類', size: 38 %>
+    <%= submit_tag '查詢' %>
+  <% end %>
+</div>

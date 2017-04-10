@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   
   resources :novels
   
+  get 'search', to: 'novels#search'
+  post 'search_result', to: 'novels#search_result'
+  
   # Keep root at the bottom
   root to: 'home#index'
   

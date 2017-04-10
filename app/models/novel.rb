@@ -1,9 +1,11 @@
 class Novel < ApplicationRecord
-  after_create :init_chapter
-  
   belongs_to :source_host
   has_many :collections
   has_many :chapters
+  
+  after_create :init_chapter
+  
+  default_scope { where.not(last_sync_url: nil).order(updated_at: :desc) }
   
   def chapter_index
     @chapter_index ||= []
@@ -44,7 +46,6 @@ class Novel < ApplicationRecord
         self.source_url = source_url
         self.source_host = sh
         self.save!
-        CrawlChapterWorker.perform_async(self.id)
       else
         return nil
       end

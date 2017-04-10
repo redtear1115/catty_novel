@@ -54,7 +54,8 @@ gem 'sidekiq', '4.2.10'
 gem 'bootstrap-sass', '~> 3.2.0'
 # Tool to parse CSS and add vendor prefixes to CSS rules
 gem 'autoprefixer-rails'
-
+# A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for Ruby webapps
+gem 'kaminari'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
