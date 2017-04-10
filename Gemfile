@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
@@ -64,8 +64,8 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   # RSpec meta-gem that depends on the other components
-  gem "rspec"
-  gem "rspec-rails", '~> 3.5'
+  gem 'rspec'
+  gem 'rspec-rails', '~> 3.5'
   # Strategies for cleaning databases in Ruby.
   gem 'database_cleaner', '~> 1.5'
 end
