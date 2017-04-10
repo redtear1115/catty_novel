@@ -1,26 +1,12 @@
 # README
-閱讀卡提諾論壇的精簡工具
+閱讀卡提諾論壇小說的精簡工具
 Host on heroku https://catty-novel-9487.herokuapp.com/
-
-### OS
-* Ubuntu 14.04.5 LTS
-
-### Database
-* Postgres SQL 9.6.1
-
-### Ruby version
-* ruby-2.3.3
-
-### Ruby Gemset
-* catty_novel
 
 ### 同步時程
 * 每天 [04:00 UTC] 同步卡提諾論壇::小說::長篇小說::第一頁的所有小說 (未啟用)
-* 每天 [00:00, 08:00, 16:00 UTC] 同步小說的最新章節
+* 每天 [00:00, 08:00, 16:00 UTC] 同步所有小說的最新章節
 
-### Future
-* interface to enter new novels & collections
+### Futures to-do for version 1.0
 * interface to search novels
 * using vue.js to render pages
-* automatically loading next chapter
-* support another source website, maybe...
+* loading n chapters in one request
