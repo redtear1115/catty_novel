@@ -1,11 +1,13 @@
 <div id="operation">
   <%= form_tag novels_path do %>
-    <%= label_tag :source_host, '來源' %>
-    <%= select_tag :source_host_id, options_from_collection_for_select(@source_hosts, "id", "name") %>
-    <br>
-    <%= label_tag :source_url, '網址' %>
-    <%= text_field_tag :source_url, '', required: true, placeholder: 'https://ck101.com/thread-100-1-1.html', size: 42 %>
-    
-    <%= submit_tag '添加', class: 'btn-default' %>
+  <div class="form-group row">
+    <%= label_tag :source_host, '來源', class: 'col-xs-1 col-form-label' %>    
+    <div class="col-xs-5"><%= select_tag :source_host_id, options_from_collection_for_select(@source_hosts, "id", "name"), class: 'form-control' %></div>
+  </div>
+  <div class="form-group row">
+    <%= label_tag :source_url, '網址', class: 'col-xs-1 col-form-label' %>
+    <div class="col-xs-5"><%= text_field_tag :source_url, '', required: true, placeholder: 'https://ck101.com/thread-100-1-1.html', size: 42, class: 'form-control' %></div>
+    <%= submit_tag '添加', class: 'btn btn-default col-xs-1' %>
+  </div>
   <% end %>
 </div>
