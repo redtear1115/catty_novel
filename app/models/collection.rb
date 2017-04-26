@@ -1,6 +1,6 @@
 class Collection < ApplicationRecord
-  belongs_to :user
-  belongs_to :novel
+  belongs_to :user, dependent: :destroy
+  belongs_to :novel, dependent: :destroy
   
   def last_read_chapter_idx
     chapter = Chapter.find_by(id: self.last_read_chapter)

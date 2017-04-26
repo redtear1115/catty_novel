@@ -1,11 +1,15 @@
 class Novel < ApplicationRecord
-  belongs_to :source_host
+  belongs_to :source_host, dependent: :destroy
   has_many :collections
   has_many :chapters
   
   after_create :init_chapter
   
-  default_scope { where.not(last_sync_url: nil).order(updated_at: :desc) }
+  default_scope { order(updated_at: :desc) }
+  
+  def available?
+    last_sync_url.nil? ? false : true
+  end
   
   def chapter_index
     @chapter_index ||= []
@@ -35,17 +39,18 @@ class Novel < ApplicationRecord
     CrawlChapterWorker.perform_async(self.id)
   end
   
-  def create_by_url(current_user, source_url, source_host_id)
+  def self.create_by_url(source_url, source_host_id)
     sh = SourceHost.find_by(id: source_host_id)
     return nil if sh.nil?
     
     if sh.valid_url?(source_url)
       cns = CrawlNovelService.new
       if novel_attrs = cns.crawl_attrs(sh, source_url)
-        self.assign_attributes(novel_attrs)
-        self.source_url = source_url
-        self.source_host = sh
-        self.save!
+        novel = Novel.new
+        novel.assign_attributes(novel_attrs)
+        novel.source_url = source_url
+        novel.source_host = sh
+        novel.save!
       else
         return nil
       end
@@ -53,7 +58,7 @@ class Novel < ApplicationRecord
       return nil
     end
     
-    return self
+    return novel
   end
     
 end

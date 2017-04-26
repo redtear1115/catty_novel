@@ -18,16 +18,14 @@ class NovelsController < ApplicationController
     if @novel
       # message: already existed
     else
-      @novel = Novel.new
-      @novel.create_by_url(current_user, source_url, source_host_id)
+      @novel = Novel.create_by_url(source_url, source_host_id)
       if @novel
         # message: success
       else
         # message: can not read this url
       end
     end
-    
-    redirect_to root_path
+    redirect_to novels_path
   end
   
   def search

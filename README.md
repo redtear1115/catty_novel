@@ -7,6 +7,6 @@ Host on heroku https://catty-novel-9487.herokuapp.com/
 * 每天 [00:00, 08:00, 16:00 UTC] 同步所有小說的最新章節
 
 ### Futures to-do for version 1.0
-* interface to search novels
 * using vue.js to render pages
-* loading n chapters in one request
+* support keyboard page changing
+* loading 20 chapters in one request

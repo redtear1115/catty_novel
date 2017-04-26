@@ -2,8 +2,11 @@ class CrawlChapterWorker
   include Sidekiq::Worker
   
   def perform(novel_id)
-    novel = Novel.find_by(id: novel_id)
-    CrawlChapterService.new.sync(novel) if novel
+    if novel = Novel.find_by(id: novel_id)
+      CrawlChapterService.new.sync(novel)
+    else
+      Rails.logger.info("Novel id #{novel_id} not existed")
+    end
   end
   
 end

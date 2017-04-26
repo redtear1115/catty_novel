@@ -1,17 +1,7 @@
-<div id="operation" class="box">
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  
-  <div class="field">
-    <%= f.email_field :email, autofocus: true, placeholder: 'email' %>
-  </div>
-
-  <div class="field">
-    <%= f.password_field :password, autocomplete: 'off', placeholder: 'password' %>
-  </div>
-  
-  <div class="actions">
-    <%= f.submit "Enter" %>
-  </div>
-  
+<div id="operation">
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-inline' } ) do |f| %>
+  <%= f.email_field :email, autofocus: true, placeholder: 'email', class: 'form-control-lg mb-2 mr-sm-2 mb-sm-0' %>
+  <%= f.password_field :password, autocomplete: 'off', placeholder: 'password', class: 'form-control-lg mb-2 mr-sm-2 mb-sm-0' %>
+  <%= f.submit "Enter", class: 'btn btn-default' %>
 <% end %>
 </div>

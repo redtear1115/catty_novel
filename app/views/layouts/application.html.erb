@@ -10,7 +10,7 @@
 
   <body>
     <div id="container">
-      <%= render 'common/top' if current_user.present? %>
+      <%= render 'common/top' %>
       <%= yield %>
       <%= render 'common/bottom' %>
     </div>

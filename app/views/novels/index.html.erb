@@ -12,7 +12,7 @@
     <tr>
       <td>[<%= novel.catgory%>] <%= novel.author%> - <%= novel.name%> (<%= novel.chapters.count%>)</td>
       <td class="colleciton-actions">
-        <a href="<%=add_to_collection_path(novel_id: novel.id)%>">加入收藏</a>
+        <%=novel.available? ? link_to('加入收藏', add_to_collection_path(novel_id: novel.id)) : '處理中'%>
       </td>
     </tr>
   <% end %>
