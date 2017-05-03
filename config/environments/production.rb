@@ -80,7 +80,7 @@ Rails.application.configure do
   config.logger = ActiveSupport::TaggedLogging.new(logger)
   
   Rails.application.routes.default_url_options = {
-    protocol: 'https',
+    protocol: 'http',
     host: 'ec2-52-76-158-43.ap-southeast-1.compute.amazonaws.com',
     port: 80
   }
