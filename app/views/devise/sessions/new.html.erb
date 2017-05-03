@@ -1,5 +1,6 @@
 <div id="operation">
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-inline box' } ) do |f| %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <%= f.email_field :email, autofocus: true, placeholder: 'email', class: 'form-control-lg mb-2 mr-sm-2 mb-sm-0' %>
   <%= f.password_field :password, autocomplete: 'off', placeholder: 'password', class: 'form-control-lg mb-2 mr-sm-2 mb-sm-0' %>
   <%= f.submit "進入", class: 'btn btn-default' %>
