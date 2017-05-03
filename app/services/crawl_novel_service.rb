@@ -45,7 +45,7 @@ class CrawlNovelService
     result[:name] = raw_title[/\](.*?)作者：/, 1]
     result[:author] = raw_title[/作者：(.*?)\(/, 1]
     result[:status] = raw_title[/[\(,（](.*?)[\),）]/, 1]
-    result.each { |k,v| result[k] = v.strip }
+    result.each { |k,v| result[k] = v.strip unless v.nil? }
     return result
   end
   
