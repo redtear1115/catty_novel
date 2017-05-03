@@ -58,6 +58,8 @@ gem 'autoprefixer-rails'
 gem 'kaminari'
 # Cron jobs in Ruby
 gem 'whenever', :require => false
+# This gem adds a Redis::Namespace class which can be used to namespace Redis keys.
+gem 'redis-namespace'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

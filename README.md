@@ -1,6 +1,6 @@
 # README
 閱讀卡提諾論壇小說的精簡工具
-Host on heroku https://catty-novel-9487.herokuapp.com/
+Host on AWS http://ec2-52-76-158-43.ap-southeast-1.compute.amazonaws.com/
 
 ### 同步時程
 * 每天同步卡提諾論壇::小說::長篇小說::第一頁的所有小說
