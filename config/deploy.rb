@@ -4,7 +4,7 @@ lock '3.8.0'
 set :application, 'catty_novel'
 set :repo_url, 'git@github.com:redtear1115/catty_novel.git'
 set :deploy_dir, 'ruby_servers'
-set :user, 'vfgcees'
+set :user, 'deployer'
 
 # Default branch is :master
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -26,10 +26,11 @@ set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:deploy_dir)}/#{fetch(:applicatio
 append :linked_files, "config/database.yml", "config/secrets.yml"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/assets"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+set :keep_assets, 5

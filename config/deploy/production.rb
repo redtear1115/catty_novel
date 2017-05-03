@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server '104.199.146.39', user: 'vfgcees', roles: %w{app db web}#, my_property: :my_value
+server 'ec2-52-76-158-43.ap-southeast-1.compute.amazonaws.com', user: 'deployer', roles: %w{app db web}#, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
@@ -30,9 +30,9 @@ server '104.199.146.39', user: 'vfgcees', roles: %w{app db web}#, my_property: :
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-set :config_root, "/home/#{fetch(:user)}/ruby_configs/"
+set :config_root, "/home/#{fetch(:user)}/server_configs/"
 set :config_dir, "#{fetch(:config_root)}#{fetch(:application)}/rails/"
-set :rvm_ruby_version, '2.3.3@catty_novel'
+set :rvm_ruby_version, '2.4.1@catty_novel'
 
 
 # Custom SSH Options
