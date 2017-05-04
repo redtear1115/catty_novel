@@ -1,4 +1,4 @@
-Rails.application.routes.default_url_options = Secret.default_url_options
+Rails.application.routes.default_url_options = Secret.default_url_options.symbolize_keys
 Rails.application.routes.draw do  
   devise_for :users
   
