@@ -56,11 +56,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "catty_novel_#{Rails.env}"
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { 
-    protocol: 'http',
-    host: 'ec2-52-76-158-43.ap-southeast-1.compute.amazonaws.com', 
-    port: 80 
-  }
+  config.action_mailer.default_url_options = Secret.default_url_options
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
@@ -83,8 +79,7 @@ Rails.application.configure do
   logger.formatter = config.log_formatter
   config.logger = ActiveSupport::TaggedLogging.new(logger)
   
-  Rails.application.routes.default_url_options = config.action_mailer.default_url_options
-  config.action_controller.default_url_options = config.action_mailer.default_url_options
+  config.action_controller.default_url_options = Secret.default_url_options
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
