@@ -1,4 +1,3 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception, prepend: true
-  skip_before_filter :verify_authenticity_token, if: -> { controller_name == 'sessions' && (action_name == 'create' || action_name == 'destroy') }
+  protect_from_forgery with: :exception
 end

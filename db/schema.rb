@@ -15,56 +15,56 @@ ActiveRecord::Schema.define(version: 20170323081802) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "chapters", force: :cascade do |t|
-    t.integer  "novel_id"
-    t.text     "content"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "external_id"
+  create_table "chapters", id: :serial, force: :cascade do |t|
+    t.integer "novel_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "external_id"
   end
 
-  create_table "collections", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "novel_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.integer  "last_read_chapter"
+  create_table "collections", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "novel_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "last_read_chapter"
   end
 
-  create_table "novels", force: :cascade do |t|
-    t.string   "name"
-    t.string   "author"
-    t.string   "catgory"
-    t.string   "source_url"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.string   "last_sync_url"
-    t.integer  "source_host_id"
-    t.string   "status"
+  create_table "novels", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "author"
+    t.string "catgory"
+    t.string "source_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "last_sync_url"
+    t.integer "source_host_id"
+    t.string "status"
   end
 
-  create_table "source_hosts", force: :cascade do |t|
-    t.string   "name"
-    t.string   "url"
+  create_table "source_hosts", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
 end

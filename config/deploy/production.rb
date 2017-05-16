@@ -32,7 +32,7 @@ server 'ec2-52-76-158-43.ap-southeast-1.compute.amazonaws.com', user: 'deployer'
 # Feel free to add new variables to customise your setup.
 set :config_root, "/home/#{fetch(:user)}/server_configs/"
 set :config_dir, "#{fetch(:config_root)}#{fetch(:application)}/rails/"
-set :rvm_ruby_version, '2.4.1@catty_novel'
+set :rvm_ruby_version, '2.3.3@catty_novel'
 
 
 # Custom SSH Options
