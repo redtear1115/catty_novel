@@ -1,14 +1,14 @@
 class CrawlChapterService
-  
+
   def initialize
   end
-  
+
   def sync(novel, full=false)
     novel.update(last_sync_url: novel.source_url) if novel.last_sync_url.nil?
     target_urls(novel, full).each { |url| insert_chapter(novel, url) }
     return novel.chapters.count
   end
-  
+
   def target_urls(novel, full=false)
     begin
       return [] if novel.source_url.nil?
@@ -17,28 +17,33 @@ class CrawlChapterService
       Rails.logger.info("Nokogiri parse fail: #{e}")
       return []
     end
-    
+
     last_page_num = html.css('.pgt .pg .last').first.content.gsub(/\D/,'').to_i
     loop_times = full ? last_page_num : calc_loop_times(last_page_num, novel.last_sync_url)
     calc_urls(loop_times, novel.last_sync_url)
   end
-  
+
   private
   def insert_chapter(novel, url)
-    html = Nokogiri::HTML(open(url))
-    postlist = html.css('#postlist .plhin .t_f')
-    postlist.each do |post|
-      chapter = novel.chapters.find_or_create_by(external_id: post['id'])
-      chapter.update(content: post.content)
+    begin
+      html = Nokogiri::HTML(open(url))
+      postlist = html.css('#postlist .plhin .t_f')
+      postlist.each do |post|
+        chapter = novel.chapters.find_or_create_by(external_id: post['id'])
+        chapter.update(content: post.content)
+      end
+      return  novel.update(last_sync_url: url)
+    rescue => e
+      novel.update(is_publish: false)
+      Rails.logger.info("Nokogiri parse fail: #{e}")
     end
-    return  novel.update(last_sync_url: url)
   end
-  
+
   def calc_loop_times(last_page_num, last_sync_url)
     splited_url = last_sync_url.split('-')
     return last_page_num - splited_url[2].to_i + 1
   end
-  
+
   def calc_urls(loop_times, last_sync_url)
     target_urls = []
     loop_times.times do |index|
@@ -48,5 +53,5 @@ class CrawlChapterService
     end
     return target_urls
   end
-  
+
 end
