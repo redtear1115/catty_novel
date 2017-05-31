@@ -1,3 +1,5 @@
 class Chapter < ApplicationRecord
-  belongs_to :novel, dependent: :destroy
+
+  belongs_to :novel
+
 end

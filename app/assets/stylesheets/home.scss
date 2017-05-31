@@ -1,0 +1,64 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#top, #bottom {
+  text-align: center;
+  color: #000000;
+  background-color: #FF8D33;
+  padding: 5px;
+}
+
+#container {
+  font-size: 18px;
+  width: 1024px;
+  background-color: #000000;
+  color: #F0F0DD;
+}
+
+#chp-nav {
+  text-align: center;
+  font-size: 18px;
+  color: #000000;
+  background-color: #FF8D33;
+  padding: 5px;
+}
+
+#content {
+  font-size: 24px;
+}
+
+.colleciton-actions {
+  padding-left: 20px;
+}
+
+@media screen and (max-device-width: 480px){
+  /* For general iPhone layouts */
+  #container {
+    font-size: 36px;
+  }
+
+  #chp-nav {
+    font-size: 36px;
+
+    a {
+      font-size: 48px;
+    }
+  }
+
+  #content {
+    font-size: 48px;
+  }
+
+}
+
+@media only screen and (device-width: 768px) {
+  /* For general iPad layouts */
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+  /* For portrait layouts only */
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+  /* For landscape layouts only */
+}

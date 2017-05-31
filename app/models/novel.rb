@@ -1,5 +1,5 @@
 class Novel < ApplicationRecord
-  belongs_to :source_host, dependent: :destroy
+  belongs_to :source_host
   has_many :collections
   has_many :chapters
 
@@ -21,7 +21,7 @@ class Novel < ApplicationRecord
         temp_array << splited_external_id[1].to_i
       end
 
-      temp_array.sort.each {|a| @chapter_index << "postmessage_#{a.to_s}"}
+      temp_array.sort.each{ |a| @chapter_index << "postmessage_#{a.to_s}" }
     end
     return @chapter_index
   end
