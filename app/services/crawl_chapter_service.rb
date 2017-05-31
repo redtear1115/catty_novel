@@ -13,14 +13,14 @@ class CrawlChapterService
     begin
       return [] if novel.source_url.nil?
       html = Nokogiri::HTML(open(novel.source_url))
+      last_page_num = html.css('.pgt .pg .last').first.content.gsub(/\D/,'').to_i
+      loop_times = full ? last_page_num : calc_loop_times(last_page_num, novel.last_sync_url)
+      return calc_urls(loop_times, novel.last_sync_url)
     rescue => e
+      novel.update(is_publish: false)
       Rails.logger.info("Nokogiri parse fail: #{e}")
       return []
     end
-
-    last_page_num = html.css('.pgt .pg .last').first.content.gsub(/\D/,'').to_i
-    loop_times = full ? last_page_num : calc_loop_times(last_page_num, novel.last_sync_url)
-    calc_urls(loop_times, novel.last_sync_url)
   end
 
   private
