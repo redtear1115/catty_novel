@@ -10,7 +10,7 @@ ruby '2.3.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.0'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
@@ -58,6 +58,8 @@ gem 'kaminari'
 gem 'whenever', :require => false
 # This gem adds a Redis::Namespace class which can be used to namespace Redis keys.
 gem 'redis-namespace'
+
+gem 'jquery-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
