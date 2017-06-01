@@ -1,9 +1,9 @@
 set :output, './log/cron.log'
 
-every 8.hours do 
+every 4.hours do
   rake 'crawl:chapter'
 end
 
-every 4.hours do
-  rake 'crawl:novel'
-end
+# every 4.hours do
+#   rake 'crawl:novel'
+# end
