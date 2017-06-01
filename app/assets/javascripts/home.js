@@ -1,4 +1,5 @@
 $(this).keypress(keyPressHandler)
+$(window).scroll(scrollHandler)
 
 function keyPressHandler(event) {
   var target_path = null
@@ -18,6 +19,18 @@ function keyPressHandler(event) {
       target_path = $('#chp-nav #prev_chp').attr('href')
       break
     default:break
+  }
+
+  if(target_path) {
+    window.location.replace(target_path)
+  }
+}
+
+function scrollHandler(e) {
+  var target_path = null
+
+  if($(window).scrollTop() + $(window).height() == $(document).height()) {
+    target_path = $('#chp-nav #next_chp').attr('href')
   }
 
   if(target_path) {
