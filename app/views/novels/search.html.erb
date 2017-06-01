@@ -1,7 +1,8 @@
 <div id="operation">
+  <h2>查詢</h2>
   <%= form_tag search_result_path do %>
     <%= label_tag :search_term, '關鍵字' %>
     <%= text_field_tag :search_term, '', required: true, placeholder: '作者/書名/分類', size: 38 %>
-    <%= submit_tag '查詢' %>
+    <%= submit_tag '查詢', class: 'btn btn-primary' %>
   <% end %>
 </div>

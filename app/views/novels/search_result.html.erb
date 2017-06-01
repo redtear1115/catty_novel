@@ -1,20 +1,4 @@
 <div id="operation">
-  <table>
-    <tr>
-      <th>查詢結果</th>
-      <th class="colleciton-actions">
-        <%=link_to('添加', new_novel_path)%> |
-        <%=link_to('查詢', search_path)%>
-      </th>
-    </tr>
-  <% @novels.each do |novel| %>
-    <tr>
-      <td>[<%= novel.catgory%>] <%= novel.author%> - <%= novel.name%> (<%= novel.chapters.count%>)</td>
-      <td class="colleciton-actions">
-        <a href="<%=add_to_collection_path(novel_id: novel.id)%>">加入收藏</a>
-      </td>
-    </tr>
-  <% end %>
-  </table>
-  <%= paginate @novels %>
+  <h2>查詢結果</h2>
+  <%= render 'table' %>
 </div>
