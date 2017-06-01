@@ -17,9 +17,7 @@ class CrawlChapterService
       loop_times = full ? last_page_num : calc_loop_times(last_page_num, novel.last_sync_url)
       return calc_urls(loop_times, novel.last_sync_url)
     rescue => e
-      novel.update(is_publish: false)
       Rails.logger.info("Nokogiri parse fail: #{e}")
-      return []
     end
   end
 
