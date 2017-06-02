@@ -6,9 +6,11 @@ class Novel < ApplicationRecord
   after_create :init_chapter
 
   default_scope { where(is_publish: true).order(updated_at: :desc) }
+  scope :unpublish, -> { where(is_publish: false).order(updated_at: :desc) }
 
-  def available?
-    last_sync_url.nil? ? false : true
+  def in_collection?(user)
+    collection = user.collections.find_by(novel_id: self.id)
+    return collection.present? ? true : false
   end
 
   def chapter_index
