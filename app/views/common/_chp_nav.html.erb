@@ -1,5 +1,11 @@
 <div id="chp-nav">
-  <a id="prev_chp" href="<%=read_path(novel_id: @novel.id, chp_idx: @prev_chp_idx)%>">上一章</a></span> |
-  <span><%=@novel.name%> (<%=@curr_chp_idx+1%>/<%=@novel.chapters.count%>)</span> |
-  <a id="next_chp" href="<%=read_path(novel_id: @novel.id, chp_idx: @next_chp_idx)%>">下一章</a></span>
+  <span>
+    <%=link_to('上一章', read_path(novel_id: @novel.id, chp_idx: @chapter_indexes[:prev]), id: :prev_chp)%>
+  </span> |
+  <span>
+    <%=@novel.name%> (<%=@chapter_indexes[:curr]%>/<%=@novel.max_chapter_index%>)
+  </span> |
+  <span>
+    <%=link_to('下一章', read_path(novel_id: @novel.id, chp_idx: @chapter_indexes[:next]), id: :next_chp)%>
+  </span>
 </div>

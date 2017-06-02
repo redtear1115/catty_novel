@@ -4,10 +4,10 @@
 <% @collections.each do |collection| %>
   <tr>
     <% if collection.novel.present? %>
-    <td>[<%= collection.novel.catgory%>] <%= collection.novel.author%> - <%= collection.novel.name%> (<%= collection.last_read_chapter_idx%>/<%= collection.novel.chapters.count%>)</td>
+    <td>[<%= collection.novel.catgory%>] <%= collection.novel.author%> - <%= collection.novel.name%> (<%= collection.last_read_chapter_idx%>/<%= collection.novel.max_chapter_index%>)</td>
     <td class="colleciton-actions">
-      <a href="<%=read_path(novel_id: collection.novel.id)%>">閱讀</a> |
-      <a href="<%=remove_collection_path(collection_id: collection.id)%>">移除</a>
+      <%=link_to("閱讀", read_path(novel_id: collection.novel.id)) %> |
+      <%=link_to("移除", collection_path(id: collection.id), method: :delete) %>
     </td>
     <% end %>
   </tr>

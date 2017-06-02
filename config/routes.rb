@@ -7,13 +7,15 @@ Rails.application.routes.draw do
   end
 
   # home controller
-  get 'read', to: 'home#read'
+  get 'index',    to: 'home#index'
+  get 'read',     to: 'home#read'
   get 'end_page', to: 'home#end_page'
-  get 'add_to_collection', to: 'home#add_to_collection'
-  get 'remove_collection', to: 'home#remove_collection'
 
-  # novel controller
-  resources :novels
+  # collections controller
+  resources :collections, only: [:create, :destroy]
+
+  # novels controller
+  resources :novels, only: [:index, :new, :create]
   get 'search', to: 'novels#search'
   post 'search_result', to: 'novels#search_result'
 

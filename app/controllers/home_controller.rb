@@ -1,58 +1,46 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!
-  
+
   def index
     @collections = current_user.collections.order(updated_at: :desc)
   end
-  
+
   def read
+    redirect_to end_page_path if go_to_end_page?
+
     @collection = current_user.collections.find_by(novel_id: permitted_params[:novel_id])
     @novel = @collection.novel
-    
+    @chapter = @novel.chapters.first
+
     if permitted_params[:chp_idx].nil?
-      if @collection.last_read_chapter.nil?
-        @chapter = @novel.chapters.first
-      else
-        @chapter = @novel.chapters.find(@collection.last_read_chapter)
-      end
-      setup_chp_idx(@novel.get_neighbors(@chapter.external_id))
-    elsif permitted_params[:chp_idx] == 'end_page'
-      redirect_to end_page_path
+      @chapter = @novel.chapters.find_by(id: @collection.last_read_chapter) if @collection.last_read_chapter.present?
     else
       external_id = @novel.chapter_index[permitted_params[:chp_idx].to_i]
-      if external_id.nil?
-        @chapter = @novel.chapters.first
-      else
-        @chapter = @novel.chapters.find_by(external_id: external_id)
-      end
-      setup_chp_idx(@novel.get_neighbors(@chapter.external_id))
+      @chapter = @novel.chapters.find_by(external_id: external_id) if external_id.present?
     end
+
+    setup_chp_idx(@novel.get_neighbors(@chapter.external_id))
   end
-  
+
   def end_page
   end
-  
-  def add_to_collection
-    novel = Novel.find_by(id: permitted_params[:novel_id])
-    current_user.add_to_collection(novel) if novel
-    redirect_to root_path
-  end
-  
-  def remove_collection
-    collection = current_user.collections.find_by(id: permitted_params[:collection_id])
-    collection.destroy if collection
-    redirect_to root_path
-  end
-  
+
   private
+
   def permitted_params
-    params.permit(:novel_id, :chp_idx, :collection_id)
+    params.permit(:novel_id, :chp_idx)
   end
-  
-  def setup_chp_idx(hash)
-    @prev_chp_idx = hash[:prev]
-    @curr_chp_idx = hash[:curr]
-    @next_chp_idx = hash[:next]
+
+  def setup_chp_idx(chapter_indexes)
+    return if go_to_end_page?
+    return if chapter_indexes.nil?
+    @chapter_indexes = chapter_indexes
     @collection.update(last_read_chapter: @chapter.id)
   end
+
+  def go_to_end_page?
+    return false if permitted_params[:chp_idx].nil?
+    permitted_params[:chp_idx] == 'end_page'
+  end
+
 end

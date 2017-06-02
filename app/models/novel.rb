@@ -26,6 +26,11 @@ class Novel < ApplicationRecord
     return @chapter_index
   end
 
+  def max_chapter_index
+    return 0 if chapter_index.empty?
+    chapter_index.count - 1
+  end
+
   def get_neighbors(external_id)
     array_idx = self.chapter_index.index(external_id)
     return { prev: 'end_page', curr: 0, next: 1} if array_idx.nil?
