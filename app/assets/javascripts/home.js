@@ -34,6 +34,15 @@ function scrollHandler(e) {
   }
 
   if(target_path) {
+    wait(3000);
     window.location.replace(target_path)
+  }
+}
+
+function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
   }
 }
