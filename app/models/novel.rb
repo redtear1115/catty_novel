@@ -6,7 +6,7 @@ class Novel < ApplicationRecord
   after_create :init_chapter
 
   default_scope { where(is_publish: true).order(updated_at: :desc) }
-  scope :unpublish, -> { where(is_publish: false).order(updated_at: :desc) }
+  scope :unpublish, -> { unscope(:where).where(is_publish: false).order(updated_at: :desc) }
 
   def in_collection?(user)
     collection = user.collections.find_by(novel_id: self.id)
