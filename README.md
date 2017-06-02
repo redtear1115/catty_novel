@@ -29,9 +29,6 @@ Host on AWS http://ec2-52-76-158-43.ap-southeast-1.compute.amazonaws.com/
 ### Ruby Gemset
 * catty_novel
 
-### Futures to-do for version 1.0
-* support keyboard page nav
-
 ### Futures to-do for version 2.0
 * using vue.js to render pages
 * loading 20 chapters in one request

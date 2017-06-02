@@ -4,8 +4,6 @@ $(window).scroll(scrollHandler)
 function keyPressHandler(event) {
   var target_path = null
   switch (event.which) {
-    case 13: // enter: jump to
-      break
     case 119: // w: collections
       target_path = $('#top .collections').attr('href')
       break

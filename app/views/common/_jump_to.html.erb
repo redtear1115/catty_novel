@@ -1,0 +1,8 @@
+<div id="jump-to">
+  <%= form_tag read_path, method: :get do %>
+    <%= hidden_field_tag :novel_id, @novel.id %>
+    <%= label_tag :chp_idx, '跳至' %>
+    <%= text_field_tag :chp_idx, nil, size: 4, maxlength: 6 %>
+    <%= submit_tag 'go', class: 'btn btn-primary' %>
+  <% end %>
+</div>
