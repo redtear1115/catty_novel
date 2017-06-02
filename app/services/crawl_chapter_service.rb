@@ -13,7 +13,8 @@ class CrawlChapterService
     begin
       return [] if novel.source_url.nil?
       html = Nokogiri::HTML(open(novel.source_url))
-      last_page_num = html.css('.pgt .pg .last').first.content.gsub(/\D/,'').to_i
+      last_page_ele = html.css('.pgt .pg a')[-2]
+      last_page_num = last_page_ele.content.gsub(/\D/,'').to_i
       loop_times = full ? last_page_num : calc_loop_times(last_page_num, novel.last_sync_url)
       return calc_urls(loop_times, novel.last_sync_url)
     rescue => e
