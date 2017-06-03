@@ -1,5 +1,4 @@
 $(this).keypress(keyPressHandler)
-$(window).scroll(scrollHandler)
 
 function keyPressHandler(event) {
   var target_path = null
@@ -10,10 +9,10 @@ function keyPressHandler(event) {
     case 115: // s: novels
       target_path = $('#top .novels').attr('href')
       break
-    case 100: // d: next
+    case 100: // d: next chapter
       target_path = $('#chp-nav #next_chp').attr('href')
       break
-    case 97: // a: prev
+    case 97: // a: prev chapter
       target_path = $('#chp-nav #prev_chp').attr('href')
       break
     default:break
@@ -21,26 +20,5 @@ function keyPressHandler(event) {
 
   if(target_path) {
     window.location.replace(target_path)
-  }
-}
-
-function scrollHandler(e) {
-  var target_path = null
-
-  if($(window).scrollTop() + $(window).height() == $(document).height()) {
-    target_path = $('#chp-nav #next_chp').attr('href')
-  }
-
-  if(target_path) {
-    wait(3000);
-    window.location.replace(target_path)
-  }
-}
-
-function wait(ms){
-   var start = new Date().getTime();
-   var end = start;
-   while(end < start + ms) {
-     end = new Date().getTime();
   }
 }

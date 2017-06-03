@@ -1,8 +1,6 @@
 ---
 :concurrency: 5
-:pidfile: tmp/pids/sidekiq-0.pid
+:pidfile: ./tmp/pids/sidekiq-0.pid
 :logfile: ./log/sidekiq.log
-production:
-  :concurrency: 25
 :queues:
   - default
