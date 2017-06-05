@@ -68,4 +68,12 @@ class Novel < ApplicationRecord
     return novel
   end
 
+  def self.delete_dupicated_url
+    grouped = self.all.group_by{ |novel| novel.source_url }
+    grouped.values.each do |duplicates|
+      first_one = duplicates.shift
+      duplicates.each{ |dup_record| dup_record.destroy }
+    end
+  end
+
 end
