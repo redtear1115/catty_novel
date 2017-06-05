@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516042322) do
+ActiveRecord::Schema.define(version: 20170605005809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20170516042322) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "external_id"
+    t.index ["external_id"], name: "index_chapters_on_external_id", unique: true
   end
 
   create_table "collections", id: :serial, force: :cascade do |t|
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 20170516042322) do
     t.integer "source_host_id"
     t.string "status"
     t.boolean "is_publish", default: true
+    t.index ["source_url"], name: "index_novels_on_source_url", unique: true
   end
 
   create_table "source_hosts", id: :serial, force: :cascade do |t|
@@ -49,6 +51,7 @@ ActiveRecord::Schema.define(version: 20170516042322) do
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["url"], name: "index_source_hosts_on_url", unique: true
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

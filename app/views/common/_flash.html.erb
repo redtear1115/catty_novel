@@ -1,0 +1,11 @@
+<% flash.each do |key, value|
+  flash_class_map = {
+    'alert' => 'alert-danger',
+    'notice' => 'alert-success'
+  }
+%>
+  <div class="alert <%= flash_class_map[key] %> alert-dismissable fade in" role="alert">
+    <%= value %>
+    <a href="#" data-dismiss="alert" class="close">×</a>
+  </div>
+<% end %>

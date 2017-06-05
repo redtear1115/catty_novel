@@ -58,7 +58,7 @@ gem 'kaminari'
 gem 'whenever', :require => false
 # This gem adds a Redis::Namespace class which can be used to namespace Redis keys.
 gem 'redis-namespace'
-
+# A gem to automate using jQuery with Rails
 gem 'jquery-rails'
 
 group :development, :test do
