@@ -1,7 +1,7 @@
 class Novel < ApplicationRecord
   belongs_to :source_host
-  has_many :collections
-  has_many :chapters
+  has_many :collections, dependent: :destroy
+  has_many :chapters, dependent: :destroy
 
   after_create :init_chapter
 

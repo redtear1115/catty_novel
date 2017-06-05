@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :rememberable, :trackable, :validatable
 
-  has_many :collections
+  has_many :collections, dependent: :destroy
   has_many :novels, through: :collections
 
   def add_to_collection(novel)
