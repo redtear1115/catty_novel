@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  # Omniauth
+  get 'users/auth/:provider/callback', to: 'omniauths#create'
+
   # home controller
   get 'index',    to: 'home#index'
   get 'read',     to: 'home#read'

@@ -4,8 +4,13 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :rememberable, :trackable, :validatable
 
+  has_many :identities, dependent: :destroy
   has_many :collections, dependent: :destroy
   has_many :novels, through: :collections
+
+  def self.create_with_omniauth(email)
+    self.create(email: email)
+  end
 
   def add_to_collection(novel)
     return if novel.nil?
