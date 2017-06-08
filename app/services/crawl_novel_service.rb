@@ -36,14 +36,14 @@ class CrawlNovelService
 
   def is_novel?(raw_title)
     return false if raw_title.nil?
-    return /[\[,【](.*?)[\],】](.*?)作者：(.*?)[\(,（](.*?)[\),）]/ =~ raw_title ? true : false
+    return /[\[,【](.*?)[\],】](.*?)作者[：,︰](.*?)[\(,（](.*?)[\),）]/ =~ raw_title ? true : false
   end
 
   def get_attr(raw_title)
     result = {}
     result[:catgory] = raw_title[/[\[,【](.*?)[\],】]/, 1]
-    result[:name] = raw_title[/[\],】](.*?)作者：/, 1]
-    result[:author] = raw_title[/作者：(.*?)[\(,（]/, 1]
+    result[:name] = raw_title[/[\],】](.*?)作者[：,︰]/, 1]
+    result[:author] = raw_title[/作者[：,︰](.*?)[\(,（]/, 1]
     result[:status] = raw_title[/[\(,（](.*?)[\),）]/, 1]
     result.each { |k,v| result[k] = v.strip unless v.nil? }
     return result
