@@ -19,6 +19,13 @@ Rails.application.routes.draw do
   get 'search', to: 'novels#search'
   post 'search_result', to: 'novels#search_result'
 
+  # api controller
+  namespace :api, default: { format: :json } do
+    namespace :v1 do
+      get 'setup_chp_idx', to: 'setup_chp_idx'
+    end
+  end
+
   # Keep root at the bottom
   root to: 'home#index'
 end

@@ -17,8 +17,12 @@ function keyPressHandler(event) {
       break
     default:break
   }
-
   if(target_path) {
+    $.get(target_path.replace("read?", "api/v1/setup_chp_idx?"))
     window.location.replace(target_path)
   }
+}
+
+function pageChangeHandler(novel_id, chp_idx) {
+  $.get('api/v1/setup_chp_idx?chp_idx='+chp_idx+'&novel_id='+novel_id)
 }

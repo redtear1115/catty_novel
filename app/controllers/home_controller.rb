@@ -35,7 +35,6 @@ class HomeController < ApplicationController
     return if go_to_end_page?
     return if chapter_indexes.nil?
     @chapter_indexes = chapter_indexes
-    @collection.update(last_read_chapter: @chapter.id)
   end
 
   def go_to_end_page?
