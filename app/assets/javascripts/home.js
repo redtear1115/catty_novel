@@ -18,11 +18,31 @@ function keyPressHandler(event) {
     default:break
   }
   if(target_path) {
-    $.get(target_path.replace("read?", "api/v1/setup_chp_idx?"))
-    window.location.replace(target_path)
+    var objUrlParams = getUrlParameter(target_path)
+    if(objUrlParams.novel_id && objUrlParams.chp_idx) {
+      pageChangeHandler(objUrlParams.novel_id, objUrlParams.chp_idx)
+    } else {
+      window.location.replace(target_path)
+    }
   }
 }
 
 function pageChangeHandler(novel_id, chp_idx) {
-  $.get('api/v1/setup_chp_idx?chp_idx='+chp_idx+'&novel_id='+novel_id)
+  const setup_chp_idx_api = 'api/v1/setup_chp_idx'
+  const read_api = 'read'
+  var sQuery = '?chp_idx='+chp_idx+'&novel_id='+novel_id
+  $.get(setup_chp_idx_api+sQuery)
+  window.location.replace(read_api+sQuery)
+}
+
+function getUrlParameter(url) {
+  var sUrlParams = decodeURIComponent(url.split('?')[1])
+  var aUrlParams = sUrlParams.split('&')
+  var objUrlParams = {}
+
+  aUrlParams.forEach(function (sUrlParam) {
+    aUrlColumn = sUrlParam.split('=')
+    objUrlParams[aUrlColumn[0]] = aUrlColumn[1]
+  })
+  return objUrlParams
 }

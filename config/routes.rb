@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   post 'search_result', to: 'novels#search_result'
 
   # api controller
-  namespace :api, default: { format: :json } do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'setup_chp_idx', to: 'setup_chp_idx'
     end

@@ -9,4 +9,11 @@ class Collection < ApplicationRecord
     self.novel.chapter_index.index(chapter.external_id)
   end
 
+  def simple
+    {
+      novel_id: novel_id,
+      last_read_chapter: last_read_chapter
+    }
+  end
+
 end
