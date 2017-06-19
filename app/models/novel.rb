@@ -6,7 +6,9 @@ class Novel < ApplicationRecord
   after_create :init_chapter
 
   default_scope { where(is_publish: true).order(updated_at: :desc) }
-  scope :unpublish, -> { unscope(:where).where(is_publish: false).order(updated_at: :desc) }
+  scope :unpublish, -> { unscoped.where(is_publish: false) }
+  scope :finished, -> { where(status: '已完結') }
+  scope :in_progress, -> { where(status: '連載中') }
 
   def in_collection?(user)
     collection = user.collections.find_by(novel_id: self.id)
@@ -49,24 +51,18 @@ class Novel < ApplicationRecord
 
   def self.create_by_url(source_url, source_host_id)
     sh = SourceHost.find_by(id: source_host_id)
-    return nil if sh.nil?
+    return if sh.nil?
+    return unless sh.valid_url?(source_url)
 
-    if sh.valid_url?(source_url)
-      cns = CrawlNovelService.new
-      if novel_attrs = cns.crawl_attrs(sh, source_url)
-        novel = Novel.new
-        novel.assign_attributes(novel_attrs)
-        novel.source_url = source_url
-        novel.source_host = sh
-        novel.save!
-      else
-        return nil
-      end
-    else
-      return nil
-    end
+    novel_attrs = CrawlNovelService.new.crawl_attrs(sh, source_url)
+    return if novel_attrs.nil?
 
-    return novel
+    novel = Novel.new
+    novel.assign_attributes(novel_attrs)
+    novel.source_url = source_url
+    novel.source_host = sh
+    novel.save!
+    novel
   end
 
   def self.delete_dupicated_url
