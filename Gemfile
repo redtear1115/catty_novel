@@ -56,8 +56,12 @@ gem 'autoprefixer-rails'
 gem 'kaminari'
 # Cron jobs in Ruby
 gem 'whenever', :require => false
+# A Ruby client library for Redis
+gem 'redis', '~> 3.2', require: ['redis', 'redis/connection/hiredis']
 # This gem adds a Redis::Namespace class which can be used to namespace Redis keys.
 gem 'redis-namespace'
+# Minimalistic C client for Redis >= 1.2
+gem 'hiredis'
 # A gem to automate using jQuery with Rails
 gem 'jquery-rails'
 
