@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     if permitted_params[:chp_idx].nil?
       @chapter = @novel.chapters.find_by(id: @collection.last_read_chapter) if @collection.last_read_chapter.present?
     else
-      external_id = @novel.chapter_index[permitted_params[:chp_idx].to_i]
+      external_id = @novel.chapter_index[permitted_params[:chp_idx]]
       @chapter = @novel.chapters.find_by(external_id: external_id) if external_id.present?
     end
 

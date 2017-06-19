@@ -14,18 +14,19 @@ class Novel < ApplicationRecord
   end
 
   def chapter_index
-    @chapter_index ||= []
-    if @chapter_index.empty?
+    redis_cache("novel:#{self.id}:index") do
+      result = {}
       temp_array = []
       external_ids = self.chapters.order(external_id: :asc).pluck(:external_id)
       external_ids.each do |external_id|
         splited_external_id = external_id.split('_')
         temp_array << splited_external_id[1].to_i
       end
-
-      temp_array.sort.each{ |a| @chapter_index << "postmessage_#{a.to_s}" }
+      temp_array.sort.each_with_index do |value, index|
+        result[index.to_s] = "postmessage_#{value.to_s}"
+      end
+      result
     end
-    return @chapter_index
   end
 
   def max_chapter_index
@@ -34,9 +35,9 @@ class Novel < ApplicationRecord
   end
 
   def get_neighbors(external_id)
-    array_idx = self.chapter_index.index(external_id)
+    array_idx = self.chapter_index.key(external_id)
     return { prev: 'end_page', curr: 0, next: 1} if array_idx.nil?
-
+    array_idx = array_idx.to_i
     prev_idx = array_idx <= 0 ? 'end_page' : array_idx - 1
     next_idx = array_idx >= (self.chapter_index.count - 1) ? 'end_page' : array_idx + 1
     return { prev: prev_idx, curr: array_idx, next: next_idx }
@@ -74,6 +75,19 @@ class Novel < ApplicationRecord
       first_one = duplicates.shift
       duplicates.each{ |dup_record| dup_record.destroy }
     end
+  end
+
+  private
+
+  def redis_cache(key, expires_time=1.day)
+    return $redis.hgetall(key) if $redis.hgetall(key).any?
+
+    chapter_index = yield
+    chapter_index.each do |index, external_id|
+      $redis.hset(key, index, external_id)
+      $redis.expire(key, expires_time)
+    end
+    chapter_index
   end
 
 end

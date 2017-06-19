@@ -24,7 +24,7 @@ class Api::V1Controller < Api::ApplicationController
   end
 
   def check_chp_idx
-    @chapter_external_id = @collection.novel.chapter_index[permitted_params[:chp_idx].to_i]
+    @chapter_external_id = @collection.novel.chapter_index[permitted_params[:chp_idx]]
     render not_found_page('chapter index not found') and return if @chapter_external_id.nil?
   end
 
