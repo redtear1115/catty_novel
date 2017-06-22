@@ -10,9 +10,11 @@
 
 #container {
   font-size: 18px;
-  width: 1024px;
+  width: 100%;
+  max-width: 1024px;
   background-color: #000000;
   color: #F0F0DD;
+  margin: 0 auto;
 }
 
 #chp-nav {
@@ -39,19 +41,19 @@
 @media screen and (max-device-width: 480px){
   /* For general iPhone layouts */
   #container {
-    font-size: 36px;
+    font-size: 14px;
   }
 
   #chp-nav {
-    font-size: 36px;
+    font-size: 14px;
 
     a {
-      font-size: 48px;
+      font-size: 20px;
     }
   }
 
   #content {
-    font-size: 48px;
+    font-size: 20px;
   }
 
 }
