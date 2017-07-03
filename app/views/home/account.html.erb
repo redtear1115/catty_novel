@@ -1,0 +1,17 @@
+<div id="operation">
+  <table class="table table-striped table-hover table-border">
+    <tr>
+      <th>第三方</th>
+      <th>狀態</th>
+      <th>動作</th>
+    </tr>
+    <tr>
+      <td>Facebook</td>
+      <td><%= @identity['facebook'].nil? ? '未連結' : '已連結' %></td>
+      <td>
+        <%= link_to '建立連結', user_facebook_omniauth_authorize_path, class: 'btn btn-success', disabled: @identity['facebook'].present? %> |
+        <%= link_to '中斷連結', disconnect_path(identity_id: @identity['facebook']), class: 'btn btn-danger', disabled: @identity['facebook'].nil? %>
+      </td>
+    </tr>
+  </table>
+</div>

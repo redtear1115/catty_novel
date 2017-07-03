@@ -8,14 +8,14 @@ class HomeController < ApplicationController
   def read
     redirect_to end_page_path if go_to_end_page?
 
-    @collection = current_user.collections.find_by(novel_id: permitted_params[:novel_id])
+    @collection = current_user.collections.find_by(novel_id: home_parmas[:novel_id])
     @novel = @collection.novel
     @chapter = @novel.chapters.first
 
-    if permitted_params[:chp_idx].nil?
+    if home_parmas[:chp_idx].nil?
       @chapter = @novel.chapters.find_by(id: @collection.last_read_chapter) if @collection.last_read_chapter.present?
     else
-      external_id = @novel.chapter_index[permitted_params[:chp_idx].to_i]
+      external_id = @novel.chapter_index[home_parmas[:chp_idx].to_i]
       @chapter = @novel.chapters.find_by(external_id: external_id) if external_id.present?
     end
 
@@ -25,10 +25,28 @@ class HomeController < ApplicationController
   def end_page
   end
 
+  def account
+    @identity = {}
+    current_user.identities.each do |identity|
+      @identity[identity.provider] = identity.id
+    end
+    @identity
+  end
+
+  def disconnect
+    Identity.delete(disconnect_params[:identity_id])
+    flash[:notice] = '已中斷連結'
+    redirect_to account_path
+  end
+
   private
 
-  def permitted_params
+  def home_parmas
     params.permit(:novel_id, :chp_idx)
+  end
+
+  def disconnect_params
+    params.permit(:identity_id)
   end
 
   def setup_chp_idx(chapter_indexes)
@@ -39,8 +57,8 @@ class HomeController < ApplicationController
   end
 
   def go_to_end_page?
-    return false if permitted_params[:chp_idx].nil?
-    permitted_params[:chp_idx] == 'end_page'
+    return false if home_parmas[:chp_idx].nil?
+    home_parmas[:chp_idx] == 'end_page'
   end
 
 end

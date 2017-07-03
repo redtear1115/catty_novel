@@ -12,9 +12,11 @@ Rails.application.routes.draw do
   end
 
   # home controller
-  get 'index',    to: 'home#index'
-  get 'read',     to: 'home#read'
-  get 'end_page', to: 'home#end_page'
+  get 'index',      to: 'home#index'
+  get 'read',       to: 'home#read'
+  get 'end_page',   to: 'home#end_page'
+  get 'account',    to: 'home#account'
+  get 'disconnect', to: 'home#disconnect'
 
   # collections controller
   resources :collections, only: [:create, :destroy]
