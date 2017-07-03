@@ -64,6 +64,8 @@ gem 'jquery-rails'
 gem 'omniauth-facebook'
 # Oauth2 strategy for Google
 gem 'omniauth-google-oauth2'
+# OmniAuth strategy for Twitter
+gem 'omniauth-twitter'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

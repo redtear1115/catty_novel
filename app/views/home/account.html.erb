@@ -24,7 +24,10 @@
     <tr>
       <td>Twitter</td>
       <td><%= @identity['twitter'].nil? ? '未連結' : '已連結' %></td>
-      <td>建立連結 | 中斷連結</td>
+      <td>
+        <%= link_to '建立連結', user_twitter_omniauth_authorize_path, class: 'btn btn-success', disabled: @identity['twitter'].present? %> |
+        <%= link_to '中斷連結', disconnect_path(identity_id: @identity['twitter']), class: 'btn btn-danger', disabled: @identity['twitter'].nil? %>
+      </td>
     </tr>
     <tr>
       <td>LinkedIn</td>

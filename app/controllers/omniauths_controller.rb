@@ -1,20 +1,21 @@
 class OmniauthsController < Devise::OmniauthCallbacksController
   before_action :check_auth
+  before_action :check_email
+  before_action :omniauth_core
 
-
-  def facebook
-    redirect_to root_url, omniauth_core
-  end
-
-  def google_oauth2
-    redirect_to root_url, omniauth_core
-  end
+  def facebook; end
+  def google_oauth2; end
+  def twitter; end
 
   private
 
   def check_auth
     head 500 and return if request.env['omniauth.auth'].nil?
     @auth = request.env['omniauth.auth']
+  end
+
+  def check_email
+    head 400 and return if auth['info'].nil? || auth['info']['email'].nil?
   end
 
   def auth
@@ -31,25 +32,25 @@ class OmniauthsController < Devise::OmniauthCallbacksController
 
     if signed_in?
       if @identity.user == current_user
-        return { notice: 'Already linked that account!' }
+        redirect_to account_path, { notice: 'Already linked that account!' } and return
       else
         @identity.user = current_user
         @identity.save!
-        return { notice: 'Successfully linked that account!' }
+        redirect_to account_path, { notice: 'Successfully linked that account!' } and return
       end
     else
       if @identity.user.present?
         sign_in(:user, @identity.user)
-        return { notice: 'Signed in!' }
+        redirect_to root_path, { notice: 'Signed in!' } and return
       else
         @identity = User.create_with_omniauth(auth['provider'], auth['uid'], auth['info'])
         sign_in(:user, @identity.user)
         # mail password to user
-        return { notice: 'User Created & Signed in!' }
+        redirect_to root_path, { notice: 'User Created & Signed in!' } and return
       end
     end
 
-    return { notice: 'Unknow Problem' }
+    redirect_to root_path, { notice: 'Unknow Problem' } and return
   end
 
 end
