@@ -15,8 +15,11 @@
     </tr>
     <tr>
       <td>Google</td>
-      <td><%= @identity['google'].nil? ? '未連結' : '已連結' %></td>
-      <td>建立連結 | 中斷連結</td>
+      <td><%= @identity['google_oauth2'].nil? ? '未連結' : '已連結' %></td>
+      <td>
+        <%= link_to '建立連結', user_google_oauth2_omniauth_authorize_path, class: 'btn btn-success', disabled: @identity['google_oauth2'].present? %> |
+        <%= link_to '中斷連結', disconnect_path(identity_id: @identity['google_oauth2']), class: 'btn btn-danger', disabled: @identity['google_oauth2'].nil? %>
+      </td>
     </tr>
     <tr>
       <td>Twitter</td>
