@@ -60,12 +60,16 @@ gem 'whenever', :require => false
 gem 'redis-namespace'
 # A gem to automate using jQuery with Rails
 gem 'jquery-rails'
+# An abstract OAuth2 strategy for OmniAuth.
+gem 'omniauth-oauth2', '~> 1.3.1'
 # Facebook OAuth2 Strategy for OmniAuth
 gem 'omniauth-facebook'
 # Oauth2 strategy for Google
 gem 'omniauth-google-oauth2'
 # OmniAuth strategy for Twitter
 gem 'omniauth-twitter'
+# A LinkedIn OAuth2 strategy for OmniAuth.
+gem 'omniauth-linkedin-oauth2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

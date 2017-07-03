@@ -31,8 +31,11 @@
     </tr>
     <tr>
       <td>LinkedIn</td>
-      <td><%= @identity['linked_in'].nil? ? '未連結' : '已連結' %></td>
-      <td>建立連結 | 中斷連結</td>
+      <td><%= @identity['linkedin'].nil? ? '未連結' : '已連結' %></td>
+      <td>
+        <%= link_to '建立連結', user_linkedin_omniauth_authorize_path, class: 'btn btn-success', disabled: @identity['linkedin'].present? %> |
+        <%= link_to '中斷連結', disconnect_path(identity_id: @identity['linkedin']), class: 'btn btn-danger', disabled: @identity['linkedin'].nil? %>
+      </td>
     </tr>
   </table>
 </div>

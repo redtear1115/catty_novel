@@ -8,5 +8,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   twitter = Secret.omniauth.twitter
   provider :twitter, twitter.app_id, twitter.app_secret, twitter.app_options
 
+  linkedin = Secret.omniauth.linkedin
+  provider :linkedin, linkedin.app_id, linkedin.app_secret, linkedin.app_options
+
   on_failure { |env| OmniauthsController.action(:failure).call(env) }
 end

@@ -6,6 +6,7 @@ class OmniauthsController < Devise::OmniauthCallbacksController
   def facebook; end
   def google_oauth2; end
   def twitter; end
+  def linkedin; end
 
   private
 
