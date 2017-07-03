@@ -7,7 +7,6 @@ class OmniauthsController < Devise::OmniauthCallbacksController
     @identity = Identity.find_by(key_columns)
     @identity = Identity.new(key_columns) if @identity.nil?
 
-
     if signed_in?
       if @identity.user == current_user
         redirect_to root_url, notice: "Already linked that account!"
@@ -18,11 +17,13 @@ class OmniauthsController < Devise::OmniauthCallbacksController
       end
     else
       if @identity.user.present?
-        self.current_user = @identity.user
+        sign_in(:user, @identity.user)
         redirect_to root_url, notice: "Signed in!"
       else
-        # No user associated with the identity so we need to create a new one
-        redirect_to new_user_url, notice: "Please finish registering"
+        @identity = User.create_with_omniauth(auth['provider'], auth['uid'], auth['info'])
+        sign_in(:user, @identity.user)
+        # mail password to user
+        redirect_to root_url, notice: "User Created & Signed in!"
       end
     end
   end
