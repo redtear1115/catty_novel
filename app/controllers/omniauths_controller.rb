@@ -1,5 +1,5 @@
 class OmniauthsController < Devise::OmniauthCallbacksController
-  def create
+  def facebook
     auth = request.env['omniauth.auth']
 
     key_columns = { provider: auth['provider'], uid: auth['uid'] }

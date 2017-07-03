@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'omniauths#create' }
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauths' }
 
   authenticate :user do
     require 'sidekiq/web'
@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   end
 
   # Omniauth
-  devise_scope :user do
-    get 'users/auth/:provider/callback', to: 'omniauths#create'
-  end
+  # devise_scope :user do
+  #   get 'users/auth/:provider/callback', to: 'omniauths#create'
+  # end
 
   # home controller
   get 'index',      to: 'home#index'

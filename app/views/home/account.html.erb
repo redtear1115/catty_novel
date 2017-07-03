@@ -13,5 +13,20 @@
         <%= link_to '中斷連結', disconnect_path(identity_id: @identity['facebook']), class: 'btn btn-danger', disabled: @identity['facebook'].nil? %>
       </td>
     </tr>
+    <tr>
+      <td>Google</td>
+      <td><%= @identity['google'].nil? ? '未連結' : '已連結' %></td>
+      <td>建立連結 | 中斷連結</td>
+    </tr>
+    <tr>
+      <td>Twitter</td>
+      <td><%= @identity['twitter'].nil? ? '未連結' : '已連結' %></td>
+      <td>建立連結 | 中斷連結</td>
+    </tr>
+    <tr>
+      <td>LinkedIn</td>
+      <td><%= @identity['linked_in'].nil? ? '未連結' : '已連結' %></td>
+      <td>建立連結 | 中斷連結</td>
+    </tr>
   </table>
 </div>

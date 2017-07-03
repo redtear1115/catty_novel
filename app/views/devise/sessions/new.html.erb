@@ -4,8 +4,12 @@
     <%= f.password_field :password, autocomplete: 'off', placeholder: 'password', class: 'form-control-lg mb-2 mr-sm-2 mb-sm-0' %>
     <%= f.submit '進入', class: 'btn btn-default' %>
   <% end %>
-  <ul>
-    <legend>第三方登入</legend>
-    <%= link_to 'facebook', user_facebook_omniauth_authorize_path %>
-  </ul>
+  <div id="omniauth_bar">
+    或以
+      <%= link_to 'Facebook', user_facebook_omniauth_authorize_path %> |
+      <%= link_to 'Google', root_path %> |
+      <%= link_to 'Twitter', root_path %> |
+      <%= link_to 'LinkedIn', root_path %>
+    登入
+  </div>
 </div>
