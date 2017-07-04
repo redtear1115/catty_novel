@@ -55,7 +55,7 @@ gem 'autoprefixer-rails'
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for Ruby webapps
 gem 'kaminari'
 # Cron jobs in Ruby
-gem 'whenever', :require => false
+gem 'whenever', require: false
 # This gem adds a Redis::Namespace class which can be used to namespace Redis keys.
 gem 'redis-namespace'
 # A gem to automate using jQuery with Rails

@@ -1,6 +1,7 @@
 class OmniauthsController < Devise::OmniauthCallbacksController
   before_action :check_auth
   before_action :check_email
+  before_action :check_signed_in
   before_action :omniauth_core
 
   def facebook; end
@@ -11,46 +12,52 @@ class OmniauthsController < Devise::OmniauthCallbacksController
   private
 
   def check_auth
+    # 認證失敗
     head 500 and return if request.env['omniauth.auth'].nil?
     @auth = request.env['omniauth.auth']
   end
 
   def check_email
+    # 無法取得 email
     head 400 and return if auth['info'].nil? || auth['info']['email'].nil?
+  end
+
+  def check_signed_in
+    @identity = Identity.find_or_initialize_by(key_columns)
+    return unless signed_in?
+
+    if @identity.user == current_user
+      redirect_to account_path, { notice: 'Already linked that account!' } and return
+    else
+      @identity.user = current_user
+      @identity.save!
+      redirect_to account_path, { notice: 'Successfully linked that account!' } and return
+    end
+
   end
 
   def auth
     @auth
   end
 
-  def auth_key
-    @auth_key ||= { provider: @auth['provider'], uid: @auth['uid'] }
+  def key_columns
+    @key_columns ||= { provider: auth['provider'], uid: auth['uid'] }
   end
 
   def omniauth_core
-    # Find an identity here
-    @identity = Identity.find_or_initialize_by(auth_key)
-
-    if signed_in?
-      if @identity.user == current_user
-        redirect_to account_path, { notice: 'Already linked that account!' } and return
-      else
-        @identity.user = current_user
-        @identity.save!
-        redirect_to account_path, { notice: 'Successfully linked that account!' } and return
-      end
+    if @identity.user.present?
+      sign_in(:user, @identity.user)
+      redirect_to root_path, { notice: 'Signed in!' } and return
     else
-      if @identity.user.present?
-        sign_in(:user, @identity.user)
-        redirect_to root_path, { notice: 'Signed in!' } and return
-      else
-        @identity = User.create_with_omniauth(auth['provider'], auth['uid'], auth['info'])
-        sign_in(:user, @identity.user)
-        # mail password to user
-        redirect_to root_path, { notice: 'User Created & Signed in!' } and return
+      if auth['provider'] == 'linkedin'
+        auth['info']['name'] = auth['extra']['raw_info']['formattedName']
       end
+      # 直接建立帳號給使用者
+      @identity = User.create_with_omniauth(auth['provider'], auth['uid'], auth['info'])
+      sign_in(:user, @identity.user)
+      # mail password to user
+      redirect_to root_path, { notice: 'User Created & Signed in!' } and return
     end
-
     redirect_to root_path, { notice: 'Unknow Problem' } and return
   end
 
