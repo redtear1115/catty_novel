@@ -39,6 +39,13 @@ class HomeController < ApplicationController
     redirect_to account_path
   end
 
+  def auth_info
+    os = OmniauthService.new(omniauth_params[:provider], omniauth_params[:access_token], omniauth_params[:secret])
+    data = os.get_info
+    head 400 and return if data.nil?
+    render json: { code: 200, message: :ok, data: data }
+  end
+
   private
 
   def home_parmas
@@ -47,6 +54,10 @@ class HomeController < ApplicationController
 
   def disconnect_params
     params.permit(:identity_id)
+  end
+
+  def omniauth_params
+    params.permit(:provider, :access_token, :secret)
   end
 
   def setup_chp_idx(chapter_indexes)

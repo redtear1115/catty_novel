@@ -15,6 +15,7 @@ class OmniauthsController < Devise::OmniauthCallbacksController
     # 認證失敗
     head 500 and return if request.env['omniauth.auth'].nil?
     @auth = request.env['omniauth.auth']
+    @identity = Identity.find_or_initialize_by(key_columns)
   end
 
   def check_email
@@ -23,17 +24,15 @@ class OmniauthsController < Devise::OmniauthCallbacksController
   end
 
   def check_signed_in
-    @identity = Identity.find_or_initialize_by(key_columns)
     return unless signed_in?
-
     if @identity.user == current_user
+      @identity.update_from_omniauth(auth)
       redirect_to account_path, { notice: 'Already linked that account!' } and return
     else
       @identity.user = current_user
-      @identity.save!
+      @identity.update_from_omniauth(auth)
       redirect_to account_path, { notice: 'Successfully linked that account!' } and return
     end
-
   end
 
   def auth
@@ -47,6 +46,7 @@ class OmniauthsController < Devise::OmniauthCallbacksController
   def omniauth_core
     if @identity.user.present?
       sign_in(:user, @identity.user)
+      @identity.update_from_omniauth(auth)
       redirect_to root_path, { notice: 'Signed in!' } and return
     else
       if auth['provider'] == 'linkedin'
@@ -55,6 +55,7 @@ class OmniauthsController < Devise::OmniauthCallbacksController
       # 直接建立帳號給使用者
       @identity = User.create_with_omniauth(auth['provider'], auth['uid'], auth['info'])
       sign_in(:user, @identity.user)
+      @identity.update_from_omniauth(auth)
       # mail password to user
       redirect_to root_path, { notice: 'User Created & Signed in!' } and return
     end

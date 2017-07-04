@@ -23,6 +23,7 @@ class OmniauthService
     uri = URI("#{facebook_api_uri}?access_token=#{access_token}&fields=name,id,email")
     response = Net::HTTP.get(uri)
     hash = Oj.load(response)
+    return nil if hash['error'].present?
     { id: hash['id'], email: hash['email'], name: hash['name'] }
   rescue => e
     return nil
@@ -32,6 +33,7 @@ class OmniauthService
     uri = URI("#{google_oauth2_api_uri}?access_token=#{access_token}&key=#{Secret.omniauth.google_oauth2.app_id}")
     response = Net::HTTP.get(uri)
     hash = Oj.load(response)
+    return nil if hash['error'].present?
     { id: hash['id'], email: hash['emails'].first['value'], name: hash['displayName'] }
   rescue => e
     return nil
@@ -42,6 +44,7 @@ class OmniauthService
     access_token = OAuth::AccessToken.from_hash(twitter_consumer, token_hash )
     response = access_token.get("#{twitter_api_uri}?include_email=true")
     hash = Oj.load(response.body)
+    return nil if hash['errors'].present?
     { id: hash['id'], email: hash['email'], name: hash['name'] }
   rescue => e
     return nil
@@ -51,7 +54,10 @@ class OmniauthService
     uri = URI("#{linkedin_api_uri}?oauth2_access_token=#{access_token}&format=json")
     response = Net::HTTP.get(uri)
     hash = Oj.load(response)
+    return nil if hash['status'].present?
     { id: hash['id'], email: hash['emailAddress'], name: hash['formattedName'] }
+  rescue => e
+    return nil
   end
 
   private

@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   get 'search', to: 'novels#search'
   post 'search_result', to: 'novels#search_result'
 
+  # omniauth controller
+  get 'auth_info', to: 'home#auth_info', defaults: { format: :json }
+
   # Keep root at the bottom
   root to: 'home#index'
 end
