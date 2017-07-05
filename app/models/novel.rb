@@ -18,14 +18,10 @@ class Novel < ApplicationRecord
   def chapter_index
     redis_cache("novel:#{self.id}:index") do
       result = {}
-      temp_array = []
-      external_ids = self.chapters.order(external_id: :asc).pluck(:external_id)
-      external_ids.each do |external_id|
-        splited_external_id = external_id.split('_')
-        temp_array << splited_external_id[1].to_i
-      end
-      temp_array.sort.each_with_index do |value, index|
-        result[index.to_s] = "postmessage_#{value.to_s}"
+      chapter_arry = self.chapters.order(number: :asc).pluck(:number, :external_id)
+
+      chapter_arry.each do |number, external_id|
+        result[number.to_s] = external_id
       end
       result
     end

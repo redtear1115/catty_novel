@@ -23,12 +23,15 @@ class CrawlChapterService
   end
 
   private
+
   def insert_chapter(novel, url)
     begin
       html = Nokogiri::HTML(open(url))
-      postlist = html.css('#postlist .plhin .t_f')
-      postlist.each do |post|
-        chapter = novel.chapters.find_or_create_by(external_id: post['id'])
+      post_list = html.css('#postlist .plhin')
+      post_list.each do |post_item|
+        post_number = post_item.css('.postNum em').first.content.to_i
+        post = post_item.css('.t_f').first
+        chapter = novel.chapters.find_or_create_by(external_id: post['id'], number: post_number)
         chapter.update(content: post.content)
       end
       return  novel.update(last_sync_url: url)

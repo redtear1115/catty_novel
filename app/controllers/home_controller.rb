@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   end
 
   def read
-    redirect_to end_page_path if go_to_end_page?
+    redirect_to end_page_path if to_end_page?
 
     @collection = current_user.collections.find_by(novel_id: permitted_params[:novel_id])
     @novel = @collection.novel
@@ -32,12 +32,12 @@ class HomeController < ApplicationController
   end
 
   def setup_chp_idx(chapter_indexes)
-    return if go_to_end_page?
+    return if to_end_page?
     return if chapter_indexes.nil?
     @chapter_indexes = chapter_indexes
   end
 
-  def go_to_end_page?
+  def to_end_page?
     return false if permitted_params[:chp_idx].nil?
     permitted_params[:chp_idx] == 'end_page'
   end
