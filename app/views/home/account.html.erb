@@ -1,0 +1,41 @@
+<div id="operation">
+  <table class="table table-striped table-hover table-border">
+    <tr>
+      <th>第三方</th>
+      <th>狀態</th>
+      <th>動作</th>
+    </tr>
+    <tr>
+      <td>Facebook</td>
+      <td><%= @identity['facebook'].nil? ? '未連結' : '已連結' %></td>
+      <td>
+        <%= link_to '建立連結', user_facebook_omniauth_authorize_path, class: 'btn btn-success', disabled: @identity['facebook'].present? %> |
+        <%= link_to '中斷連結', disconnect_path(identity_id: @identity['facebook']), class: 'btn btn-danger', disabled: @identity['facebook'].nil? %>
+      </td>
+    </tr>
+    <tr>
+      <td>Google</td>
+      <td><%= @identity['google_oauth2'].nil? ? '未連結' : '已連結' %></td>
+      <td>
+        <%= link_to '建立連結', user_google_oauth2_omniauth_authorize_path, class: 'btn btn-success', disabled: @identity['google_oauth2'].present? %> |
+        <%= link_to '中斷連結', disconnect_path(identity_id: @identity['google_oauth2']), class: 'btn btn-danger', disabled: @identity['google_oauth2'].nil? %>
+      </td>
+    </tr>
+    <tr>
+      <td>Twitter</td>
+      <td><%= @identity['twitter'].nil? ? '未連結' : '已連結' %></td>
+      <td>
+        <%= link_to '建立連結', user_twitter_omniauth_authorize_path, class: 'btn btn-success', disabled: @identity['twitter'].present? %> |
+        <%= link_to '中斷連結', disconnect_path(identity_id: @identity['twitter']), class: 'btn btn-danger', disabled: @identity['twitter'].nil? %>
+      </td>
+    </tr>
+    <tr>
+      <td>LinkedIn</td>
+      <td><%= @identity['linkedin'].nil? ? '未連結' : '已連結' %></td>
+      <td>
+        <%= link_to '建立連結', user_linkedin_omniauth_authorize_path, class: 'btn btn-success', disabled: @identity['linkedin'].present? %> |
+        <%= link_to '中斷連結', disconnect_path(identity_id: @identity['linkedin']), class: 'btn btn-danger', disabled: @identity['linkedin'].nil? %>
+      </td>
+    </tr>
+  </table>
+</div>

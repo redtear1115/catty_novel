@@ -8,11 +8,11 @@ class HomeController < ApplicationController
   def read
     redirect_to end_page_path if to_end_page?
 
-    @collection = current_user.collections.find_by(novel_id: permitted_params[:novel_id])
+    @collection = current_user.collections.find_by(novel_id: home_parmas[:novel_id])
     @novel = @collection.novel
     @chapter = @novel.chapters.first
 
-    if permitted_params[:chp_idx].nil?
+    if home_parmas[:chp_idx].nil?
       @chapter = @novel.chapters.find_by(id: @collection.last_read_chapter) if @collection.last_read_chapter.present?
     else
       external_id = @novel.chapter_index[permitted_params[:chp_idx]]
@@ -25,10 +25,39 @@ class HomeController < ApplicationController
   def end_page
   end
 
+  def account
+    @identity = {}
+    current_user.identities.each do |identity|
+      @identity[identity.provider] = identity.id
+    end
+    @identity
+  end
+
+  def disconnect
+    Identity.delete(disconnect_params[:identity_id])
+    flash[:notice] = '已中斷連結'
+    redirect_to account_path
+  end
+
+  def auth_info
+    os = OmniauthService.new(omniauth_params[:provider], omniauth_params[:access_token], omniauth_params[:secret])
+    data = os.get_info
+    head 400 and return if data.nil?
+    render json: { code: 200, message: :ok, data: data }
+  end
+
   private
 
-  def permitted_params
+  def home_parmas
     params.permit(:novel_id, :chp_idx)
+  end
+
+  def disconnect_params
+    params.permit(:identity_id)
+  end
+
+  def omniauth_params
+    params.permit(:provider, :access_token, :secret)
   end
 
   def setup_chp_idx(chapter_indexes)
