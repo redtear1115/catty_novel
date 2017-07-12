@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     if home_parmas[:chp_idx].nil?
       @chapter = @novel.chapters.find_by(id: @collection.last_read_chapter) if @collection.last_read_chapter.present?
     else
-      external_id = @novel.chapter_index[permitted_params[:chp_idx]]
+      external_id = @novel.chapter_index[home_parmas[:chp_idx]]
       @chapter = @novel.chapters.find_by(external_id: external_id) if external_id.present?
     end
 
@@ -67,8 +67,8 @@ class HomeController < ApplicationController
   end
 
   def to_end_page?
-    return false if permitted_params[:chp_idx].nil?
-    permitted_params[:chp_idx] == 'end_page'
+    return false if home_parmas[:chp_idx].nil?
+    home_parmas[:chp_idx] == 'end_page'
   end
 
 end
