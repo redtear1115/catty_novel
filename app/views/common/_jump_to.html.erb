@@ -3,6 +3,6 @@
     <%= hidden_field_tag :novel_id, @novel.id %>
     <%= label_tag :chp_idx, '跳至' %>
     <%= text_field_tag :chp_idx, nil, size: 4, maxlength: 6 %>
-    <%= submit_tag 'go', class: 'btn btn-primary' %>
+    <%= submit_tag 'go', class: 'btn btn-primary', onclick: "pageChangeHandler(#{@novel.id}, $('#chp_idx').val())" %>
   <% end %>
 </div>

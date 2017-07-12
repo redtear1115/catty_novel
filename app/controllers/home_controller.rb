@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   end
 
   def read
-    redirect_to end_page_path if go_to_end_page?
+    redirect_to end_page_path if to_end_page?
 
     @collection = current_user.collections.find_by(novel_id: home_parmas[:novel_id])
     @novel = @collection.novel
@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     if home_parmas[:chp_idx].nil?
       @chapter = @novel.chapters.find_by(id: @collection.last_read_chapter) if @collection.last_read_chapter.present?
     else
-      external_id = @novel.chapter_index[home_parmas[:chp_idx].to_i]
+      external_id = @novel.chapter_index[permitted_params[:chp_idx]]
       @chapter = @novel.chapters.find_by(external_id: external_id) if external_id.present?
     end
 
@@ -61,15 +61,14 @@ class HomeController < ApplicationController
   end
 
   def setup_chp_idx(chapter_indexes)
-    return if go_to_end_page?
+    return if to_end_page?
     return if chapter_indexes.nil?
     @chapter_indexes = chapter_indexes
-    @collection.update(last_read_chapter: @chapter.id)
   end
 
-  def go_to_end_page?
-    return false if home_parmas[:chp_idx].nil?
-    home_parmas[:chp_idx] == 'end_page'
+  def to_end_page?
+    return false if permitted_params[:chp_idx].nil?
+    permitted_params[:chp_idx] == 'end_page'
   end
 
 end

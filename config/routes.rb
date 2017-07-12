@@ -25,10 +25,15 @@ Rails.application.routes.draw do
   resources :novels, only: [:index, :new, :create]
   get 'search', to: 'novels#search'
   post 'search_result', to: 'novels#search_result'
-
   # omniauth controller
   get 'auth_info', to: 'home#auth_info', defaults: { format: :json }
 
+  # api controller
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      get 'setup_chp_idx', to: 'setup_chp_idx'
+    end
+  end
   # Keep root at the bottom
   root to: 'home#index'
 end

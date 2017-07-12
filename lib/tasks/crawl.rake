@@ -14,7 +14,7 @@ namespace :crawl do
 
   desc "sync chapters from all novel"
   task :chapter => :environment do
-    Novel.all.each_with_index do |novel, index|
+    Novel.in_progress.each_with_index do |novel, index|
       run_time = base_time + (index * 10)
       jid = CrawlChapterWorker.perform_at(run_time, novel.id)
       puts "#{novel.id}. #{novel.name}: jid-#{jid}"
