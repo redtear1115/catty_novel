@@ -15,18 +15,6 @@ class Novel < ApplicationRecord
     return collection.present? ? true : false
   end
 
-  def chapter_index
-    RedisCacheService.cache_hash("novel:#{self.id}:index") do
-      result = {}
-      chapter_arry = self.chapters.order(number: :asc).pluck(:number, :external_id)
-
-      chapter_arry.each do |number, external_id|
-        result[number.to_s] = external_id
-      end
-      result
-    end
-  end
-
   def get_neighbors(curr_number)
     prev_number = curr_number <= min_chapter_number ? 'end_page' : curr_number - 1
     next_number = curr_number >= max_chapter_number ? 'end_page' : curr_number + 1
@@ -63,14 +51,6 @@ class Novel < ApplicationRecord
     novel.source_host = sh
     novel.save!
     novel
-  end
-
-  def self.delete_dupicated_url
-    grouped = self.all.group_by{ |novel| novel.source_url }
-    grouped.values.each do |duplicates|
-      first_one = duplicates.shift
-      duplicates.each{ |dup_record| dup_record.destroy }
-    end
   end
 
 end

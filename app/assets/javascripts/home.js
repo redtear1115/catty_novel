@@ -28,10 +28,10 @@ function keyPressHandler(event) {
 }
 
 function pageChangeHandler(novel_id, chapter_number) {
-  const setup_chp_idx_api = 'api/v1/update_last_read_chapter'
+  const update_last_read_chapter_api = 'api/v1/update_last_read_chapter'
   const read_api = 'read'
   var sQuery = '?chapter_number='+chapter_number+'&novel_id='+novel_id
-  $.get(setup_chp_idx_api+sQuery)
+  $.get(update_last_read_chapter_api+sQuery)
   window.location.replace(read_api+sQuery)
 }
 

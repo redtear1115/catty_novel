@@ -1,13 +1,14 @@
 class Identity < ApplicationRecord
   belongs_to :user
 
-  def update_from_omniauth(omniauth)
-    self.provider = omniauth['provider']
-    self.uid = omniauth['uid']
-    self.email = omniauth['info']['email']
-    self.name = omniauth['info']['name'] || omniauth['extra']['raw_info']['formattedName']
-    self.token = omniauth['credentials']['token']
-    self.secret = omniauth['credentials']['secret']
-    self.save!
+  def self.read_auth_info(auth_info)
+    {
+      provider: auth_info['provider'],
+      uid: auth_info['uid'],
+      email: auth_info['info']['email'],
+      name: auth_info['info']['name'] || auth_info['extra']['raw_info']['formattedName'],
+      token: auth_info['credentials']['token'],
+      secret: auth_info['credentials']['secret'],
+    }
   end
 end

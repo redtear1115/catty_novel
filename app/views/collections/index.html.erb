@@ -4,7 +4,7 @@
 <% @collections.each do |collection| %>
   <tr>
     <% if collection.novel.present? %>
-    <td>[<%= collection.novel.catgory%>] <%= collection.novel.author%> - <%= collection.novel.name%> (<%= collection.last_read_chapter_idx%>/<%= collection.novel.max_chapter_number%>)</td>
+    <td>[<%= collection.novel.catgory%>] <%= collection.novel.author%> - <%= collection.novel.name%> (<%= collection.last_read_chapter_number%>/<%= collection.novel.max_chapter_number%>)</td>
     <td class="colleciton-actions">
       <%=link_to("閱讀", read_path(novel_id: collection.novel.id)) %> |
       <%=link_to("移除", collection_path(id: collection.id), method: :delete) %>
