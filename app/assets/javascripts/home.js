@@ -19,18 +19,18 @@ function keyPressHandler(event) {
   }
   if(target_path) {
     var objUrlParams = getUrlParameter(target_path)
-    if(objUrlParams.novel_id && objUrlParams.chp_idx) {
-      pageChangeHandler(objUrlParams.novel_id, objUrlParams.chp_idx)
+    if(objUrlParams.novel_id && objUrlParams.chapter_number) {
+      pageChangeHandler(objUrlParams.novel_id, objUrlParams.chapter_number)
     } else {
       window.location.replace(target_path)
     }
   }
 }
 
-function pageChangeHandler(novel_id, chp_idx) {
-  const setup_chp_idx_api = 'api/v1/setup_chp_idx'
+function pageChangeHandler(novel_id, chapter_number) {
+  const setup_chp_idx_api = 'api/v1/update_last_read_chapter'
   const read_api = 'read'
-  var sQuery = '?chp_idx='+chp_idx+'&novel_id='+novel_id
+  var sQuery = '?chapter_number='+chapter_number+'&novel_id='+novel_id
   $.get(setup_chp_idx_api+sQuery)
   window.location.replace(read_api+sQuery)
 }

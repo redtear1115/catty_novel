@@ -21,6 +21,7 @@ class CrawlNovelService
   end
 
   private
+
   def insert_novel(source_host)
     temp = []
     html = Nokogiri::HTML(open(source_host.url))

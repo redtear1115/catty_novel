@@ -1,13 +1,13 @@
 <div id="chp-nav">
   <span>
-    <%=link_to('上一章(a)', read_path(novel_id: @novel.id, chp_idx: @chapter_indexes[:prev]),
-      id: :prev_chp, onclick: "pageChangeHandler(#{@novel.id}, #{@chapter_indexes[:prev]})")%>
+    <%=link_to('上一章(a)', read_path(novel_id: @novel.id, chapter_number: @neighbors[:prev]),
+      id: :prev_chp, onclick: "pageChangeHandler(#{@novel.id}, #{@neighbors[:prev]})")%>
   </span> |
   <span>
-    <%=@novel.name%> (<%=@chapter_indexes[:curr]%>/<%=@novel.max_chapter_index%>)
+    <%=@novel.name%> (<%=@neighbors[:curr]%>/<%=@novel.max_chapter_number%>)
   </span> |
   <span>
-    <%=link_to('下一章(d)', read_path(novel_id: @novel.id, chp_idx: @chapter_indexes[:next]),
-      id: :next_chp, onclick: "pageChangeHandler(#{@novel.id}, #{@chapter_indexes[:next]})")%>
+    <%=link_to('下一章(d)', read_path(novel_id: @novel.id, chapter_number: @neighbors[:next]),
+      id: :next_chp, onclick: "pageChangeHandler(#{@novel.id}, #{@neighbors[:next]})")%>
   </span>
 </div>

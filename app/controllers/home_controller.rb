@@ -7,19 +7,10 @@ class HomeController < ApplicationController
 
   def read
     redirect_to end_page_path if to_end_page?
-
     @collection = current_user.collections.find_by(novel_id: home_parmas[:novel_id])
     @novel = @collection.novel
-    @chapter = @novel.chapters.first
-
-    if home_parmas[:chp_idx].nil?
-      @chapter = @novel.chapters.find_by(id: @collection.last_read_chapter) if @collection.last_read_chapter.present?
-    else
-      external_id = @novel.chapter_index[home_parmas[:chp_idx]]
-      @chapter = @novel.chapters.find_by(external_id: external_id) if external_id.present?
-    end
-
-    setup_chp_idx(@novel.get_neighbors(@chapter.external_id))
+    @chapter = find_chapter
+    @neighbors = @novel.get_neighbors(@chapter.number)
   end
 
   def end_page
@@ -49,7 +40,7 @@ class HomeController < ApplicationController
   private
 
   def home_parmas
-    params.permit(:novel_id, :chp_idx)
+    params.permit(:novel_id, :chapter_number)
   end
 
   def disconnect_params
@@ -60,15 +51,19 @@ class HomeController < ApplicationController
     params.permit(:provider, :access_token, :secret)
   end
 
-  def setup_chp_idx(chapter_indexes)
-    return if to_end_page?
-    return if chapter_indexes.nil?
-    @chapter_indexes = chapter_indexes
+  def find_chapter
+    chapter = if home_parmas[:chapter_number].present?
+      @novel.chapters.find_by(number: home_parmas[:chapter_number])
+    elsif @collection.last_read_chapter.present?
+      @novel.chapters.find_by(id: @collection.last_read_chapter)
+    end
+    return chapter if chapter.present?
+    @novel.chapters.first
   end
 
   def to_end_page?
-    return false if home_parmas[:chp_idx].nil?
-    home_parmas[:chp_idx] == 'end_page'
+    return false if home_parmas[:chapter_number].nil?
+    home_parmas[:chapter_number] == 'end_page'
   end
 
 end

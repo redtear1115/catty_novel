@@ -11,7 +11,7 @@
   <tbody>
   <% @novels.each do |novel| %>
     <tr>
-      <td>[<%= novel.catgory%>] <%= novel.author%> - <%= novel.name%> (<%= novel.max_chapter_index%>)</td>
+      <td>[<%= novel.catgory%>] <%= novel.author%> - <%= novel.name%> (<%= novel.max_chapter_number%>)</td>
       <td class="colleciton-actions">
       <% if novel.chapter_index.empty? %>
         <%= button_tag '正在處理', class: 'btn btn-danger' %>

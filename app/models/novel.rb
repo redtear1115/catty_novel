@@ -16,7 +16,7 @@ class Novel < ApplicationRecord
   end
 
   def chapter_index
-    redis_cache("novel:#{self.id}:index") do
+    RedisCacheService.cache_hash("novel:#{self.id}:index") do
       result = {}
       chapter_arry = self.chapters.order(number: :asc).pluck(:number, :external_id)
 
@@ -27,18 +27,22 @@ class Novel < ApplicationRecord
     end
   end
 
-  def max_chapter_index
-    return 0 if chapter_index.empty?
-    chapter_index.count - 1
+  def get_neighbors(curr_number)
+    prev_number = curr_number <= min_chapter_number ? 'end_page' : curr_number - 1
+    next_number = curr_number >= max_chapter_number ? 'end_page' : curr_number + 1
+    { prev: prev_number, curr: curr_number, next: next_number }
   end
 
-  def get_neighbors(external_id)
-    array_idx = self.chapter_index.key(external_id)
-    return { prev: 'end_page', curr: 0, next: 1} if array_idx.nil?
-    array_idx = array_idx.to_i
-    prev_idx = array_idx <= 0 ? 'end_page' : array_idx - 1
-    next_idx = array_idx >= (self.chapter_index.count - 1) ? 'end_page' : array_idx + 1
-    return { prev: prev_idx, curr: array_idx, next: next_idx }
+  def max_chapter_number
+    RedisCacheService.cache_integer("novel:#{self.id}:max") do
+      self.chapters.maximum(:number)
+    end
+  end
+
+  def min_chapter_number
+    RedisCacheService.cache_integer("novel:#{self.id}:min") do
+      self.chapters.minimum(:number)
+    end
   end
 
   def init_chapter
@@ -67,19 +71,6 @@ class Novel < ApplicationRecord
       first_one = duplicates.shift
       duplicates.each{ |dup_record| dup_record.destroy }
     end
-  end
-
-  private
-
-  def redis_cache(key, expires_time=1.day)
-    return $redis.hgetall(key) if $redis.hgetall(key).any?
-
-    chapter_index = yield
-    chapter_index.each do |index, external_id|
-      $redis.hset(key, index, external_id)
-      $redis.expire(key, expires_time)
-    end
-    chapter_index
   end
 
 end

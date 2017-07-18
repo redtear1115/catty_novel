@@ -31,9 +31,10 @@ Rails.application.routes.draw do
   # api controller
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      get 'setup_chp_idx', to: 'setup_chp_idx'
+      get 'update_last_read_chapter', to: 'update_last_read_chapter'
     end
   end
+
   # Keep root at the bottom
   root to: 'home#index'
 end
