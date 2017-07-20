@@ -24,15 +24,6 @@ class OmniauthsController < Devise::OmniauthCallbacksController
     redirect_to account_profile_path, { alert: '缺少信箱，認證失敗' } and return if @email.nil?
   end
 
-  def binding_identity
-    if current_user.email == @email
-      user = current_user.find_or_create_identity_with_auth_info(@auth_info)
-      redirect_to account_profile_path, { notice: "成功連結至 #{user.email}" }
-    else
-      redirect_to account_profile_path, { alert: "信箱 #{@email}，連結失敗" }
-    end
-  end
-
   def omniauth_core
     if signed_in?
       binding_identity
@@ -40,6 +31,16 @@ class OmniauthsController < Devise::OmniauthCallbacksController
       user = User.find_or_create_identity_with_auth_info(@auth_info)
       sign_in(:user, user)
       redirect_to account_profile_path, { notice: '連結成功' }
+    end
+  end
+
+  def binding_identity
+    if current_user.email == @email
+      user = current_user.find_or_create_identity_with_auth_info(@auth_info)
+      redirect_to account_profile_path, { notice: "成功連結至 #{user.email}" }
+    else
+      message = "第三方信箱 #{@email} 與 #{current_user.email} 不一致，連結失敗"
+      redirect_to account_profile_path, { alert: message }
     end
   end
 
