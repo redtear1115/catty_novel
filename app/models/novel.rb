@@ -37,17 +37,17 @@ class Novel < ApplicationRecord
     CrawlChapterWorker.perform_async(self.id)
   end
 
-  def self.create_by_url(source_url, source_host_id)
-    sh = SourceHost.find_by(id: source_host_id)
+  def self.create_with_params(params)
+    sh = SourceHost.find_by(id: params[:source_host_id])
     return if sh.nil?
-    return unless sh.valid_url?(source_url)
+    return unless sh.valid_url?(params[:source_url])
 
-    novel_attrs = CrawlNovelService.new.crawl_attrs(sh, source_url)
+    novel_attrs = CrawlNovelService.new.crawl_attrs(sh, params[:source_url])
     return if novel_attrs.nil?
 
     novel = Novel.new
     novel.assign_attributes(novel_attrs)
-    novel.source_url = source_url
+    novel.source_url = params[:source_url]
     novel.source_host = sh
     novel.save!
     novel

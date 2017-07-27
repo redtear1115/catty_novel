@@ -2,7 +2,7 @@ class NovelsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @novels = Novel.all.page(permitted_params[:page])
+    @novels = Novel.all.page(search_params[:page])
   end
 
   def new
@@ -11,32 +11,29 @@ class NovelsController < ApplicationController
   end
 
   def create
-    source_url = permitted_params[:source_url]
-    source_host_id = permitted_params[:source_host_id]
-
-    @novel = Novel.find_by(source_url: source_url, source_host_id: source_host_id)
+    @novel = Novel.find_by(novel_params)
     if @novel
       flash[:alert] = '書籍已存在'
     else
-      @novel = Novel.create_by_url(source_url, source_host_id)
+      @novel = Novel.create_with_params(novel_params)
       if @novel.present?
         flash[:notice] = '書籍建立成功'
       else
-        flash[:alert] = '書籍建立失敗'
+        flash[:alert] = '不合法的網址或標題，書籍建立失敗'
       end
     end
     redirect_to novels_path
   end
 
   def search
-    search_term = "%#{permitted_params[:search_term]}%"
+    search_term = "%#{search_params[:search_term]}%"
     @novels = Novel.where('name like ? OR author like ? OR catgory like ?', search_term, search_term, search_term)
   end
 
   def search_result
-    if permitted_params[:search_term]
-      search_term = "%#{permitted_params[:search_term]}%"
-      @novels = Novel.where('name like ? OR author like ? OR catgory like ?', search_term, search_term, search_term).page(permitted_params[:page])
+    if search_params[:search_term].present?
+      search_term = "%#{search_params[:search_term]}%"
+      @novels = Novel.where('name like ? OR author like ? OR catgory like ?', search_term, search_term, search_term).page(search_params[:page])
 
       flash[:alert] = '查無相關書籍'
       redirect_to search_path if @novels.empty?
@@ -46,8 +43,13 @@ class NovelsController < ApplicationController
   end
 
   private
-  def permitted_params
-    params.permit(:source_url, :source_host_id, :search_term, :page)
+
+  def search_params
+    params.permit(:search_term, :page)
+  end
+
+  def novel_params
+    params.permit(:source_url, :source_host_id)
   end
 
 end
