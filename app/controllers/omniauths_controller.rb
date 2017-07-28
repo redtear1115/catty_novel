@@ -1,7 +1,9 @@
 class OmniauthsController < Devise::OmniauthCallbacksController
-  before_action :verify_auth_info!, except: [:failure]
-  before_action :verify_email!, except: [:failure]
-  before_action :omniauth_core, except: [:failure]
+  before_action :verify_auth_info!, except: [:failure, :auth_info]
+  before_action :verify_email!, except: [:failure, :auth_info]
+  before_action :omniauth_core, except: [:failure, :auth_info]
+
+  include ApiReturnPageHelper
 
   def facebook; end
   def google_oauth2; end
@@ -12,7 +14,21 @@ class OmniauthsController < Devise::OmniauthCallbacksController
     redirect_to account_profile_path, { alert: '認證失敗' }
   end
 
+  def auth_info
+    os = OmniauthService.new(omniauth_params[:provider], omniauth_params[:omniauth_token], omniauth_params[:omniauth_secret])
+    auth_info = os.get_info
+    if auth_info.nil?
+      render forbidden_page('認證失敗')
+    else
+      render ok_page(auth_info)
+    end
+  end
+
   private
+
+  def omniauth_params
+    params.permit(:format, :provider, :omniauth_token, :omniauth_secret)
+  end
 
   def verify_auth_info!
     @auth_info = request.env['omniauth.auth']

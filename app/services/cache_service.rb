@@ -1,4 +1,4 @@
-module RedisCacheService
+module CacheService
 
   def self.cache_hash(key, expires_time=1.day)
     return $redis.hgetall(key) if $redis.hgetall(key).any?

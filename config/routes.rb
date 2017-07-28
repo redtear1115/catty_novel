@@ -22,15 +22,6 @@ Rails.application.routes.draw do
   get 'search', to: 'novels#search'
   post 'search_result', to: 'novels#search_result'
 
-
-  # api controller
-  namespace :api, defaults: { format: :json } do
-    namespace :v1 do
-      get 'update_last_read_chapter', to: 'update_last_read_chapter'
-      get 'auth_info', to: 'auth_info'
-    end
-  end
-
   # Keep root at the bottom
   root to: 'collections#index'
 end

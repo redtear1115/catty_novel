@@ -1,5 +1,7 @@
 class CollectionsController < ApplicationController
   before_action :authenticate_user!
+  before_action :verify_collection!, only: [:read]
+  before_action :verify_chapter!, only: [:read]
 
   def create
     novel = Novel.find_by(id: permitted_params[:novel_id])
@@ -20,15 +22,11 @@ class CollectionsController < ApplicationController
   end
 
   def read
-    redirect_to end_page_path if to_end_page?
-    @collection = current_user.collections.find_by(novel_id: permitted_params[:novel_id])
-    @novel = @collection.novel
-    @chapter = find_chapter
-    @neighbors = @novel.get_neighbors(@chapter.number)
+    @neighbors = @chapter.neighbors
+    @collection.update(last_read_chapter: @chapter.id)
   end
 
-  def end_page
-  end
+  def end_page; end
 
   private
 
@@ -36,14 +34,33 @@ class CollectionsController < ApplicationController
     params.permit(:id, :novel_id, :chapter_number)
   end
 
-  def find_chapter
-    chapter = if permitted_params[:chapter_number].present?
-      @novel.chapters.find_by(number: permitted_params[:chapter_number])
-    elsif @collection.last_read_chapter.present?
-      @novel.chapters.find_by(id: @collection.last_read_chapter)
+  def verify_collection!
+    redirect_to end_page_path and return if to_end_page?
+    @collection = current_user.collections.find_by(novel_id: permitted_params[:novel_id])
+    if @collection.nil?
+      flash[:alert] = '尚未收藏，無法閱讀'
+      redirect_to root_path and return
+    else
+      @novel = @collection.novel
     end
-    return chapter if chapter.present?
-    @novel.chapters.first
+  end
+
+  def verify_chapter!
+    @chapter = find_chapter
+    if @chapter.nil?
+      flash[:alert] = '未知的章節，無法閱讀'
+      redirect_to root_path and return
+    end
+  end
+
+  def find_chapter
+    if permitted_params[:chapter_number].present?
+      chapter = @novel.chapters.find_by(number: permitted_params[:chapter_number])
+    elsif @collection.last_read_chapter.present?
+      chapter = @novel.chapters.find_by(id: @collection.last_read_chapter)
+    end
+    return if chapter.nil?
+    chapter
   end
 
   def to_end_page?

@@ -45,7 +45,7 @@ module ApiReturnPageHelper
     {
       status: :not_found,
       json: {
-        code: 403,
+        code: 404,
         message: message,
       }
     }

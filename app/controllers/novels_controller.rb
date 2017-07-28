@@ -26,8 +26,6 @@ class NovelsController < ApplicationController
   end
 
   def search
-    search_term = "%#{search_params[:search_term]}%"
-    @novels = Novel.where('name like ? OR author like ? OR catgory like ?', search_term, search_term, search_term)
   end
 
   def search_result

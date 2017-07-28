@@ -15,20 +15,14 @@ class Novel < ApplicationRecord
     return collection.present? ? true : false
   end
 
-  def get_neighbors(curr_number)
-    prev_number = curr_number <= min_chapter_number ? 'end_page' : curr_number - 1
-    next_number = curr_number >= max_chapter_number ? 'end_page' : curr_number + 1
-    { prev: prev_number, curr: curr_number, next: next_number }
-  end
-
   def max_chapter_number
-    RedisCacheService.cache_integer("novel:#{self.id}:max") do
+    CacheService.cache_integer("novel:#{self.id}:max") do
       self.chapters.maximum(:number)
     end
   end
 
   def min_chapter_number
-    RedisCacheService.cache_integer("novel:#{self.id}:min") do
+    CacheService.cache_integer("novel:#{self.id}:min") do
       self.chapters.minimum(:number)
     end
   end
