@@ -12,7 +12,7 @@ class NovelsController < ApplicationController
 
   def create
     @novel = Novel.find_by(novel_params)
-    if @novel
+    if @novel.present?
       flash[:alert] = '書籍已存在'
     else
       @novel = Novel.create_with_params(novel_params)
@@ -25,18 +25,16 @@ class NovelsController < ApplicationController
     redirect_to novels_path
   end
 
-  def search
-  end
+  def search; end
 
   def search_result
-    if search_params[:search_term].present?
-      search_term = "%#{search_params[:search_term]}%"
-      @novels = Novel.where('name like ? OR author like ? OR catgory like ?', search_term, search_term, search_term).page(search_params[:page])
+    redirect_to novels_path and return if search_params[:search_term].nil?
 
+    search_term = "%#{search_params[:search_term]}%"
+    @novels = Novel.where('name like ? OR author like ? OR catgory like ?', search_term, search_term, search_term).page(search_params[:page])
+    if @novels.blank?
       flash[:alert] = '查無相關書籍'
-      redirect_to search_path if @novels.empty?
-    else
-      redirect_to novels_path
+      redirect_to search_path
     end
   end
 
