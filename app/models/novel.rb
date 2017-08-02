@@ -3,8 +3,6 @@ class Novel < ApplicationRecord
   has_many :collections, dependent: :destroy
   has_many :chapters, dependent: :destroy
 
-  after_create :init_chapter
-
   default_scope { where(is_publish: true).order(updated_at: :desc) }
   scope :unpublish, -> { unscoped.where(is_publish: false) }
   scope :finished, -> { where(status: '已完結') }
@@ -27,10 +25,6 @@ class Novel < ApplicationRecord
     end
   end
 
-  def init_chapter
-    CrawlChapterWorker.perform_async(self.id)
-  end
-
   def self.create_with_params(params)
     sh = SourceHost.find_by(id: params[:source_host_id])
     return if sh.nil?
@@ -44,6 +38,7 @@ class Novel < ApplicationRecord
     novel.source_url = params[:source_url]
     novel.source_host = sh
     novel.save!
+    CrawlChapterWorker.perform_async(novel.id)
     novel
   end
 
