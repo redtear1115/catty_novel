@@ -27,6 +27,7 @@ class OmniauthService
     return nil if hash['error'].present?
     { id: hash['id'], email: hash['email'], name: hash['name'] }
   rescue => e
+    Rails.logger.error("omniauth error:#{e}")
     return nil
   end
 
@@ -37,6 +38,7 @@ class OmniauthService
     return nil if hash['error'].present?
     { id: hash['id'], email: hash['emails'].first['value'], name: hash['displayName'] }
   rescue => e
+    Rails.logger.error("omniauth error:#{e}")
     return nil
   end
 
@@ -48,6 +50,7 @@ class OmniauthService
     return nil if hash['errors'].present?
     { id: hash['id'], email: hash['email'], name: hash['name'] }
   rescue => e
+    Rails.logger.error("omniauth error:#{e}")
     return nil
   end
 
@@ -58,6 +61,7 @@ class OmniauthService
     return nil if hash['status'].present?
     { id: hash['id'], email: hash['emailAddress'], name: hash['formattedName'] }
   rescue => e
+    Rails.logger.error("omniauth error:#{e}")
     return nil
   end
 
