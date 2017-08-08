@@ -39,10 +39,11 @@ set :rvm_ruby_version, '2.3.3@catty_novel'
 #
 # Global options
 # --------------
-set :ssh_options, 
+set :ssh_options, {
   #   keys: %w(/home/rlisowski/.ssh/id_rsa),
-  forward_agent: true,
+  forward_agent: true
   #   auth_methods: %w(password)
+}
 
 #
 # The server-based syntax can be used to override options:
