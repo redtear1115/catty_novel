@@ -4,7 +4,7 @@
 # rake crawl:chapter
 
 namespace :crawl do
-  base_time = Time.zone.now
+  base_time = Time.now.utc
   desc 'sync novels from all source host'
   task novel: :environment do
     SourceHost.all.each_with_index do |source_host, index|
