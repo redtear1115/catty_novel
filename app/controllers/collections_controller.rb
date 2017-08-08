@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CollectionsController < ApplicationController
   before_action :authenticate_user!
   before_action :verify_collection!, only: [:read]
@@ -12,7 +14,7 @@ class CollectionsController < ApplicationController
 
   def destroy
     collection = current_user.collections.find_by(id: permitted_params[:id])
-    collection.destroy if collection
+    collection&.destroy
     flash[:notice] = '收藏刪除成功'
     redirect_to root_path
   end
@@ -35,11 +37,11 @@ class CollectionsController < ApplicationController
   end
 
   def verify_collection!
-    redirect_to end_page_path and return if to_end_page?
+    redirect_to(end_page_path) && return if to_end_page?
     @collection = current_user.collections.find_by(novel_id: permitted_params[:novel_id])
     if @collection.nil?
       flash[:alert] = '尚未收藏，無法閱讀'
-      redirect_to root_path and return
+      redirect_to(root_path) && return
     else
       @novel = @collection.novel
     end
@@ -49,7 +51,7 @@ class CollectionsController < ApplicationController
     @chapter = find_chapter
     if @chapter.nil?
       flash[:alert] = '未知的章節，無法閱讀'
-      redirect_to root_path and return
+      redirect_to(root_path) && return
     end
   end
 
@@ -67,5 +69,4 @@ class CollectionsController < ApplicationController
     return false if permitted_params[:chapter_number].nil?
     permitted_params[:chapter_number] == 'end_page'
   end
-
 end

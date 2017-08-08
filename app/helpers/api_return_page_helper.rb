@@ -1,5 +1,6 @@
-module ApiReturnPageHelper
+# frozen_string_literal: true
 
+module ApiReturnPageHelper
   def ok_page(data)
     {
       status: :ok,
@@ -16,7 +17,7 @@ module ApiReturnPageHelper
       status: :bad_request,
       json: {
         code: 400,
-        message: message,
+        message: message
       }
     }
   end
@@ -26,7 +27,7 @@ module ApiReturnPageHelper
       status: :unauthorized,
       json: {
         code: 401,
-        message: message,
+        message: message
       }
     }
   end
@@ -36,7 +37,7 @@ module ApiReturnPageHelper
       status: :forbidden,
       json: {
         code: 403,
-        message: message,
+        message: message
       }
     }
   end
@@ -46,7 +47,7 @@ module ApiReturnPageHelper
       status: :not_found,
       json: {
         code: 404,
-        message: message,
+        message: message
       }
     }
   end
@@ -56,9 +57,8 @@ module ApiReturnPageHelper
       status: :internal_server_error,
       json: {
         code: 500,
-        message: message,
+        message: message
       }
     }
   end
-
 end

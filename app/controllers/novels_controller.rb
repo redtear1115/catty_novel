@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NovelsController < ApplicationController
   before_action :authenticate_user!
 
@@ -28,7 +30,7 @@ class NovelsController < ApplicationController
   def search; end
 
   def search_result
-    redirect_to novels_path and return if search_params[:search_term].nil?
+    redirect_to(novels_path) && return if search_params[:search_term].nil?
 
     search_term = "%#{search_params[:search_term]}%"
     @novels = Novel.where('name like ? OR author like ? OR catgory like ?', search_term, search_term, search_term).page(search_params[:page])
@@ -47,5 +49,4 @@ class NovelsController < ApplicationController
   def novel_params
     params.permit(:source_url, :source_host_id)
   end
-
 end

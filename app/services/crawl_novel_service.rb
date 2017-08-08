@@ -1,14 +1,14 @@
-class CrawlNovelService
+# frozen_string_literal: true
 
-  def initialize
-  end
+class CrawlNovelService
+  def initialize; end
 
   def sync(source_host)
     insert_novel(source_host)
-    return source_host.novels.count
+    source_host.novels.count
   end
 
-  def crawl_attrs(source_host, source_url)
+  def crawl_attrs(_source_host, source_url)
     html = Nokogiri::HTML(open(source_url))
     thread_subject = html.css('header #thread_subject').first
     if thread_subject
@@ -32,12 +32,12 @@ class CrawlNovelService
       novel = source_host.novels.find_or_create_by(source_url: source_url)
       novel.update(get_attr(post['title']))
     end
-    return nil
+    nil
   end
 
   def is_novel?(raw_title)
     return false if raw_title.nil?
-    return /[\[,【](.*?)[\],】](.*?)作者[：,︰](.*?)[\(,（](.*?)[\),）]/ =~ raw_title ? true : false
+    /[\[,【](.*?)[\],】](.*?)作者[：,︰](.*?)[\(,（](.*?)[\),）]/ =~ raw_title ? true : false
   end
 
   def get_attr(raw_title)
@@ -46,8 +46,7 @@ class CrawlNovelService
     result[:name] = raw_title[/[\],】](.*?)作者[：,︰]/, 1]
     result[:author] = raw_title[/作者[：,︰](.*?)[\(,（]/, 1]
     result[:status] = raw_title[/[\(,（](.*?)[\),）]/, 1]
-    result.each { |k,v| result[k] = v.strip unless v.nil? }
-    return result
+    result.each { |k, v| result[k] = v.strip unless v.nil? }
+    result
   end
-
 end

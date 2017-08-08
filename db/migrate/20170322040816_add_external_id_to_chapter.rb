@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddExternalIdToChapter < ActiveRecord::Migration[5.0]
   def change
     add_column :chapters, :external_id, :string

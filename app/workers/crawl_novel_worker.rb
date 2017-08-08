@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CrawlNovelWorker
   include Sidekiq::Worker
   sidekiq_options retry: 5
@@ -14,5 +16,4 @@ class CrawlNovelWorker
       Rails.logger.info("Source Host id #{source_host_id} not existed")
     end
   end
-
 end

@@ -1,13 +1,12 @@
+# frozen_string_literal: true
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server 'ec2-52-76-158-43.ap-southeast-1.compute.amazonaws.com', user: 'deployer', roles: %w{app db web}#, my_property: :my_value
+server 'ec2-52-76-158-43.ap-southeast-1.compute.amazonaws.com', user: 'deployer', roles: %w[app db web] # , my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-
-
 
 # role-based syntax
 # ==================
@@ -21,8 +20,6 @@ server 'ec2-52-76-158-43.ap-southeast-1.compute.amazonaws.com', user: 'deployer'
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
-
-
 # Configuration
 # =============
 # You can set any configuration variable like in config/deploy.rb
@@ -34,7 +31,6 @@ set :config_root, "/home/#{fetch(:user)}/server_configs/"
 set :config_dir, "#{fetch(:config_root)}#{fetch(:application)}/rails/"
 set :rvm_ruby_version, '2.3.3@catty_novel'
 
-
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
@@ -43,11 +39,11 @@ set :rvm_ruby_version, '2.3.3@catty_novel'
 #
 # Global options
 # --------------
-set :ssh_options, {
-#   keys: %w(/home/rlisowski/.ssh/id_rsa),
+set :ssh_options, 
+  #   keys: %w(/home/rlisowski/.ssh/id_rsa),
   forward_agent: true,
-#   auth_methods: %w(password)
-}
+  #   auth_methods: %w(password)
+
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------

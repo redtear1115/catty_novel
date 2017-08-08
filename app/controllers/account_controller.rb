@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccountController < ApplicationController
   before_action :authenticate_user!
 
@@ -12,7 +14,7 @@ class AccountController < ApplicationController
   def disconnect
     @identity = current_user.identities.find_by(id: permitted_params[:identity_id])
     @identity.destroy
-    redirect_to account_profile_path, { notice: '中斷成功' }
+    redirect_to account_profile_path, notice: '中斷成功'
   end
 
   private
@@ -20,5 +22,4 @@ class AccountController < ApplicationController
   def permitted_params
     params.permit(:identity_id)
   end
-
 end

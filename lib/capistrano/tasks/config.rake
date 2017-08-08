@@ -1,5 +1,6 @@
-namespace :config do
+# frozen_string_literal: true
 
+namespace :config do
   desc 'Link config files from cloudconfig to shared'
   task :link do
     on roles(:all) do
@@ -10,5 +11,4 @@ namespace :config do
       end
     end
   end
-
 end

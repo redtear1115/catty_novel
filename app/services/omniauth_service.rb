@@ -1,6 +1,7 @@
-class OmniauthService
+# frozen_string_literal: true
 
-  def initialize(provider, access_token, oauth_token_secret=nil)
+class OmniauthService
+  def initialize(provider, access_token, oauth_token_secret = nil)
     @provider = provider
     @access_token = access_token
     @oauth_token_secret = oauth_token_secret
@@ -41,7 +42,7 @@ class OmniauthService
 
   def get_info_from_twitter
     token_hash = { oauth_token: access_token, oauth_token_secret: oauth_token_secret }
-    access_token = OAuth::AccessToken.from_hash(twitter_consumer, token_hash )
+    access_token = OAuth::AccessToken.from_hash(twitter_consumer, token_hash)
     response = access_token.get("#{twitter_api_uri}?include_email=true")
     hash = Oj.load(response.body)
     return nil if hash['errors'].present?
@@ -62,17 +63,11 @@ class OmniauthService
 
   private
 
-  def provider
-    @provider
-  end
+  attr_reader :provider
 
-  def access_token
-    @access_token
-  end
+  attr_reader :access_token
 
-  def oauth_token_secret
-    @oauth_token_secret
-  end
+  attr_reader :oauth_token_secret
 
   def facebook_api_uri
     'https://graph.facebook.com/me'
@@ -90,12 +85,11 @@ class OmniauthService
     OAuth::Consumer.new(
       Secret.omniauth.twitter.app_id,
       Secret.omniauth.twitter.app_secret,
-      { site: 'https://api.twitter.com', scheme: :header }
+      site: 'https://api.twitter.com', scheme: :header
     )
   end
 
   def linkedin_api_uri
     'https://api.linkedin.com/v1/people/~:(id,email-address,formatted-name)'
   end
-
 end

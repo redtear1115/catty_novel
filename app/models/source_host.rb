@@ -1,5 +1,6 @@
-class SourceHost < ApplicationRecord
+# frozen_string_literal: true
 
+class SourceHost < ApplicationRecord
   has_many :novels
 
   def valid_url?(novel_url)
@@ -12,7 +13,6 @@ class SourceHost < ApplicationRecord
     allowed_hash = {
       'https://ck101.com/forum-237-1.html' => /https:\/\/ck101\.com\/thread-\d*-1-1\.html/
     }
-    allowed_hash[self.url]
+    allowed_hash[url]
   end
-
 end

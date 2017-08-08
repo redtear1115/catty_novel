@@ -1,5 +1,6 @@
-class User < ApplicationRecord
+# frozen_string_literal: true
 
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :rememberable, :trackable, :validatable,
@@ -24,7 +25,7 @@ class User < ApplicationRecord
 
   def find_or_create_identity_with_auth_info(raw_auth_info)
     auth_info = Identity.read_auth_info(raw_auth_info)
-    identity = self.identities.find_or_initialize_by(provider: auth_info[:provider], uid: auth_info[:uid])
+    identity = identities.find_or_initialize_by(provider: auth_info[:provider], uid: auth_info[:uid])
     identity.assign_attributes(auth_info)
     identity.save!
     identity.user
@@ -33,10 +34,8 @@ class User < ApplicationRecord
   def add_to_collection(novel)
     return if novel.nil?
     return if novel.last_sync_url.nil?
-    return if self.collections.include?(novel.collections.find_by(user_id: self.id))
-    self.collections.create(novel: novel)
-    return self.novels
+    return if collections.include?(novel.collections.find_by(user_id: id))
+    collections.create(novel: novel)
+    novels
   end
-
-
 end

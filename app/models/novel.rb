@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Novel < ApplicationRecord
   belongs_to :source_host
   has_many :collections, dependent: :destroy
@@ -9,19 +11,19 @@ class Novel < ApplicationRecord
   scope :in_progress, -> { where(status: '連載中') }
 
   def in_collection?(user)
-    collection = user.collections.find_by(novel_id: self.id)
-    return collection.present? ? true : false
+    collection = user.collections.find_by(novel_id: id)
+    collection.present? ? true : false
   end
 
   def max_chapter_number
-    CacheService.cache_integer("novel:#{self.id}:max") do
-      self.chapters.maximum(:number)
+    CacheService.cache_integer("novel:#{id}:max") do
+      chapters.maximum(:number)
     end
   end
 
   def min_chapter_number
-    CacheService.cache_integer("novel:#{self.id}:min") do
-      self.chapters.minimum(:number)
+    CacheService.cache_integer("novel:#{id}:min") do
+      chapters.minimum(:number)
     end
   end
 
@@ -41,5 +43,4 @@ class Novel < ApplicationRecord
     CrawlChapterWorker.perform_async(novel.id)
     novel
   end
-
 end

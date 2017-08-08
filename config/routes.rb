@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'omniauths' }
 
@@ -13,12 +15,12 @@ Rails.application.routes.draw do
   end
 
   # collections controller
-  resources :collections, only: [:index, :create, :destroy]
+  resources :collections, only: %i[index create destroy]
   get 'read',       to: 'collections#read'
   get 'end_page',   to: 'collections#end_page'
 
   # novels controller
-  resources :novels, only: [:index, :new, :create]
+  resources :novels, only: %i[index new create]
   get 'search', to: 'novels#search'
   post 'search_result', to: 'novels#search_result'
 

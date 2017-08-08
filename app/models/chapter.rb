@@ -1,11 +1,11 @@
-class Chapter < ApplicationRecord
+# frozen_string_literal: true
 
+class Chapter < ApplicationRecord
   belongs_to :novel
 
   def neighbors
-    prev_number = self.number <= self.novel.min_chapter_number ? 'end_page' : self.number - 1
-    next_number = self.number >= self.novel.max_chapter_number ? 'end_page' : self.number + 1
-    { prev: prev_number, curr: self.number, next: next_number }
+    prev_number = number <= novel.min_chapter_number ? 'end_page' : number - 1
+    next_number = number >= novel.max_chapter_number ? 'end_page' : number + 1
+    { prev: prev_number, curr: number, next: next_number }
   end
-
 end

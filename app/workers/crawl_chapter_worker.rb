@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CrawlChapterWorker
   include Sidekiq::Worker
   sidekiq_options retry: 5
@@ -14,5 +16,4 @@ class CrawlChapterWorker
       Rails.logger.info("Novel id #{novel_id} not existed")
     end
   end
-
 end

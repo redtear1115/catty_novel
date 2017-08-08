@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Identity < ApplicationRecord
   belongs_to :user
 
@@ -8,7 +10,7 @@ class Identity < ApplicationRecord
       email: auth_info['info']['email'],
       name: auth_info['info']['name'] || auth_info['extra']['raw_info']['formattedName'],
       token: auth_info['credentials']['token'],
-      secret: auth_info['credentials']['secret'],
+      secret: auth_info['credentials']['secret']
     }
   end
 end
