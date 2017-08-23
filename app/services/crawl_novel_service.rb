@@ -11,13 +11,8 @@ class CrawlNovelService
   def crawl_attrs(_source_host, source_url)
     html = Nokogiri::HTML(open(source_url))
     thread_subject = html.css('header #thread_subject').first
-    if thread_subject
-      raw_title = thread_subject.content
-      return nil unless is_novel?(raw_title)
-      return get_attr(raw_title)
-    else
-      return nil
-    end
+    return if thread_subject.nil?
+    return cast_to_attrs(thread_subject.content)
   end
 
   private
@@ -35,18 +30,18 @@ class CrawlNovelService
     nil
   end
 
-  def is_novel?(raw_title)
-    return false if raw_title.nil?
-    /[\[,【](.*?)[\],】](.*?)作者[：,︰](.*?)[\(,（](.*?)[\),）]/ =~ raw_title ? true : false
-  end
-
-  def get_attr(raw_title)
-    result = {}
-    result[:catgory] = raw_title[/[\[,【](.*?)[\],】]/, 1]
-    result[:name] = raw_title[/[\],】](.*?)作者[：,︰]/, 1]
-    result[:author] = raw_title[/作者[：,︰](.*?)[\(,（]/, 1]
-    result[:status] = raw_title[/[\(,（](.*?)[\),）]/, 1]
-    result.each { |k, v| result[k] = v.strip unless v.nil? }
-    result
+  def cast_to_attrs(raw_title)
+    return nil if raw_title.nil?
+    if /[\[,【](.*?)[\],】](.*?)作者[：,:,︰](.*?)[\(,（](.*?)[\),）]/ =~ raw_title
+      result = {}
+      result[:catgory] = raw_title[/[\[,【](.*?)[\],】]/, 1]
+      result[:name] = raw_title[/[\],】](.*?)作者[：,:,︰]/, 1]
+      result[:author] = raw_title[/作者[：,︰](.*?)[\(,（]/, 1]
+      result[:status] = raw_title[/[\(,（](.*?)[\),）]/, 1]
+      result.each { |k, v| result[k] = v.strip unless v.nil? }
+      return result
+    else
+      return nil
+    end
   end
 end
