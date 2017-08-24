@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-$redis = Redis::Namespace.new(Secret.redis.namespace, redis: Redis.new(Secret.redis.symbolize_keys))
+$redis = Redis::Namespace.new(Secret.cache_redis.namespace, redis: Redis.new(Secret.cache_redis.symbolize_keys))
