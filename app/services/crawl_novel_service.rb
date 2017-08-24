@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class CrawlNovelService
-  def initialize; end
+  def initialize
+    @novel_regexp = /[\[,【](.*?)[\],】](.*?)作者[：,:,︰](.*?)[\(,（](.*?)[\),）]/
+  end
 
   def sync(source_host)
     insert_novel(source_host)
-    source_host.novels.count
   end
 
   def crawl_attrs(_source_host, source_url)
@@ -18,30 +19,29 @@ class CrawlNovelService
   private
 
   def insert_novel(source_host)
-    temp = []
+    new_novels = []
     html = Nokogiri::HTML(open(source_host.url))
     postlist = html.css('.titleBox .blockTitle a')
     postlist.each do |post|
-      next unless is_novel?(post['title'])
+      attrs = cast_to_attrs(post['title'])
+      next if attrs.nil?
       source_url = post['href'].sub('http://', 'https://')
       novel = source_host.novels.find_or_create_by(source_url: source_url)
-      novel.update(get_attr(post['title']))
+      novel.update(attrs)
+      new_novels << novel
     end
-    nil
+    new_novels
   end
 
   def cast_to_attrs(raw_title)
     return nil if raw_title.nil?
-    if /[\[,【](.*?)[\],】](.*?)作者[：,:,︰](.*?)[\(,（](.*?)[\),）]/ =~ raw_title
-      result = {}
-      result[:catgory] = raw_title[/[\[,【](.*?)[\],】]/, 1]
-      result[:name] = raw_title[/[\],】](.*?)作者[：,:,︰]/, 1]
-      result[:author] = raw_title[/作者[：,︰](.*?)[\(,（]/, 1]
-      result[:status] = raw_title[/[\(,（](.*?)[\),）]/, 1]
-      result.each { |k, v| result[k] = v.strip unless v.nil? }
-      return result
-    else
-      return nil
-    end
+    match_data = @novel_regexp.match(raw_title)
+    return nil if match_data.nil?
+    {
+      catgory: match_data[1].strip,
+      name: match_data[2].strip,
+      author: match_data[3].strip,
+      status: match_data[4].strip
+    }
   end
 end
