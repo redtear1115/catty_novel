@@ -80,6 +80,8 @@ gem 'omniauth-twitter'
 gem 'omniauth-linkedin-oauth2'
 # A Ruby static code analyzer, based on the community Ruby style guide.
 gem 'rubocop', require: false
+# Acceptance test framework for web applications
+gem 'capybara'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and debugger
@@ -90,7 +92,7 @@ group :development, :test do
   gem 'pry-rails'
   # RSpec meta-gem that depends on the other components
   gem 'rspec'
-  gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-rails', '~> 3.6'
   # Strategies for cleaning databases in Ruby.
   gem 'database_cleaner', '~> 1.5'
 end
