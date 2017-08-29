@@ -4,6 +4,8 @@ branches:
   - master
 rvm:
 - 2.3.3
+services:
+  - redis-server
 before_install:
 - openssl aes-256-cbc -pass $secret_password -in .encrypts/database.yml.enc -out config/database.yml -d
 - openssl aes-256-cbc -pass $secret_password -in .encrypts/secrets.yml.enc -out config/secrets.yml -d
