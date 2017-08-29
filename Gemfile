@@ -100,6 +100,8 @@ group :development, :test do
 end
 
 group :development do
+  # CLI and Ruby client library for Travis CI
+  gem 'travis'
   # Use Capistrano for deployment
   gem 'capistrano', '3.8.0'
   gem 'capistrano-rails', require: false
