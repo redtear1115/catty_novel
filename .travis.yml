@@ -1,9 +1,12 @@
 language: ruby
+branches:
+  only:
+  - master
 rvm:
 - 2.3.3
 before_install:
-- openssl aes-256-cbc -pass $secret_password -in database.yml.enc -out config/database.yml -d
-- openssl aes-256-cbc -pass $secret_password -in secrets.yml.enc -out config/secrets.yml -d
+- openssl aes-256-cbc -pass $secret_password -in .encrypts/database.yml.enc -out config/database.yml -d
+- openssl aes-256-cbc -pass $secret_password -in .encrypts/secrets.yml.enc -out config/secrets.yml -d
 script:
 - bundle exec rake db:create
 - bundle exec rake db:migrate

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/redtear1115/catty_novel.svg?branch=master)](https://travis-ci.org/redtear1115/catty_novel)
+
 # README
 閱讀卡提諾論壇小說的精簡工具
 Host on AWS http://catty-nove.ml/
