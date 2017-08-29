@@ -7,14 +7,14 @@ class CollectionsController < ApplicationController
 
   def create
     novel = Novel.find_by(id: permitted_params[:novel_id])
-    current_user.add_to_collection(novel) if novel
-    flash[:notice] = '收藏建立成功'
+    user_collections = current_user.add_to_collection(novel)
+    user_collections.nil? ? flash[:alert] = '收藏建立失敗' : flash[:notice] = '收藏建立成功'
     redirect_to root_path
   end
 
   def destroy
     collection = current_user.collections.find_by(id: permitted_params[:id])
-    collection&.destroy
+    collection.destroy
     flash[:notice] = '收藏刪除成功'
     redirect_to root_path
   end

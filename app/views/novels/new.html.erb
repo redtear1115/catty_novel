@@ -1,5 +1,5 @@
 <div id="operation">
-  <%= form_tag novels_path do %>
+  <%= form_tag novels_path, id: 'new_novel_form' do %>
   <div class="form-group row">
     <%= label_tag :source_host, '來源', class: 'col-xs-1 col-form-label' %>
     <div class="col-xs-5"><%= select_tag :source_host_id, options_from_collection_for_select(@source_hosts, "id", "name"), class: 'form-control' %></div>

@@ -36,6 +36,6 @@ class User < ApplicationRecord
     return if novel.last_sync_url.nil?
     return if collections.include?(novel.collections.find_by(user_id: id))
     collections.create(novel: novel)
-    novels
+    collections
   end
 end

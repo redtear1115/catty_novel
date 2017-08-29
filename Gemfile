@@ -95,6 +95,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.6'
   # Strategies for cleaning databases in Ruby.
   gem 'database_cleaner', '~> 1.5'
+  # Factory Girl ♥ Rails
+  gem 'factory_girl_rails', '~> 4.0'
 end
 
 group :development do

@@ -3,10 +3,12 @@ require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
+
+include Warden::Test::Helpers
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -56,9 +58,14 @@ RSpec.configure do |config|
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
-  # config.filter_gems_from_backtrace("gem name")
+  # config.filter_gems_from_backtrace('gem name')
 
+  # DatabaseCleaner
   config.before(:suite) do
+    # clear redis
+    cache_to_del = $redis.keys('cache:*')
+    $redis.del(*cache_to_del) unless cache_to_del.empty?
+
     if config.use_transactional_fixtures?
       raise(<<-MSG)
         Delete line `config.use_transactional_fixtures = true` from rails_helper.rb
@@ -84,10 +91,10 @@ RSpec.configure do |config|
     driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
 
     if !driver_shares_db_connection_with_specs
-    # Driver is probably for an external browser with an app
-    # under test that does *not* share a database connection with the
-    # specs, so use truncation strategy.
-    DatabaseCleaner.strategy = :truncation
+      # Driver is probably for an external browser with an app
+      # under test that does *not* share a database connection with the
+      # specs, so use truncation strategy.
+      DatabaseCleaner.strategy = :truncation
     end
   end
 
@@ -99,4 +106,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  # FactoryGirl
+  config.include FactoryGirl::Syntax::Methods
 end
