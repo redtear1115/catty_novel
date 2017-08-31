@@ -93,6 +93,8 @@ group :development, :test do
   # RSpec meta-gem that depends on the other components
   gem 'rspec'
   gem 'rspec-rails', '~> 3.6'
+  # Code coverage for Ruby 1.9+
+  gem 'simplecov', require: false
   # Strategies for cleaning databases in Ruby.
   gem 'database_cleaner', '~> 1.5'
   # Factory Girl ♥ Rails
