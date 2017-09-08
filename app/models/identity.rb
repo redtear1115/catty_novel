@@ -3,7 +3,7 @@
 class Identity < ApplicationRecord
   belongs_to :user
 
-  def self.read_auth_info(auth_info)
+  def self.to_attrs(auth_info)
     {
       provider: auth_info['provider'],
       uid: auth_info['uid'],

@@ -11,22 +11,15 @@ class User < ApplicationRecord
   has_many :novels, through: :collections
 
   def self.find_or_create_identity_with_auth_info(raw_auth_info)
-    auth_info = Identity.read_auth_info(raw_auth_info)
-    user = find_or_initialize_by(email: auth_info[:email])
-    if user.new_record?
-      random_password = SecureRandom.urlsafe_base64
-      user.name = auth_info[:name]
-      user.password = random_password
-      user.password_confirmation = random_password
-      user.save!
-    end
-    user.find_or_create_identity_with_auth_info(raw_auth_info)
+    indentity_attrs = Identity.to_attrs(raw_auth_info)
+    user = self.find_or_initialize_by(email: indentity_attrs[:email])
+    user.fast_setup(indentity_attrs[:name]) if user.new_record?
+    user.update_identity(indentity_attrs)
   end
 
-  def find_or_create_identity_with_auth_info(raw_auth_info)
-    auth_info = Identity.read_auth_info(raw_auth_info)
-    identity = identities.find_or_initialize_by(provider: auth_info[:provider], uid: auth_info[:uid])
-    identity.assign_attributes(auth_info)
+  def update_identity(indentity_attrs)
+    identity = self.identities.find_or_initialize_by(provider: indentity_attrs[:provider], uid: indentity_attrs[:uid])
+    identity.assign_attributes(indentity_attrs)
     identity.save!
     identity.user
   end
@@ -38,4 +31,13 @@ class User < ApplicationRecord
     collections.create(novel: novel)
     collections
   end
+
+  def fast_setup(new_name)
+    random_password = SecureRandom.urlsafe_base64
+    self.name = new_name
+    self.password = random_password
+    self.password_confirmation = random_password
+    self.save!
+  end
+
 end

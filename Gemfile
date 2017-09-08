@@ -78,10 +78,6 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-twitter'
 # A LinkedIn OAuth2 strategy for OmniAuth.
 gem 'omniauth-linkedin-oauth2'
-# A Ruby static code analyzer, based on the community Ruby style guide.
-gem 'rubocop', require: false
-# Acceptance test framework for web applications
-gem 'capybara'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and debugger
@@ -99,6 +95,8 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.5'
   # Factory Girl ♥ Rails
   gem 'factory_girl_rails', '~> 4.0'
+  # Acceptance test framework for web applications
+  gem 'capybara'
 end
 
 group :development do
@@ -116,6 +114,8 @@ group :development do
   # Speeds up development by keeping your application running in the background.
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  # A Ruby static code analyzer, based on the community Ruby style guide.
+  gem 'rubocop', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

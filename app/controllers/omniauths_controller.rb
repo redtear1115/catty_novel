@@ -1,32 +1,19 @@
 # frozen_string_literal: true
 
 class OmniauthsController < Devise::OmniauthCallbacksController
-  before_action :verify_auth_info!, except: %i[failure auth_info]
-  before_action :verify_email!, except: %i[failure auth_info]
-  before_action :omniauth_core, except: %i[failure auth_info]
+  before_action :verify_auth_info!, except: %i[failure]
+  before_action :verify_email!, except: %i[failure]
+  before_action :omniauth_core, except: %i[failure]
 
   include ApiReturnPageHelper
 
   def facebook; end
-
   def google_oauth2; end
-
   def twitter; end
-
   def linkedin; end
 
   def failure
     redirect_to account_profile_path, alert: '認證失敗'
-  end
-
-  def auth_info
-    os = OmniauthService.new(omniauth_params[:provider], omniauth_params[:omniauth_token], omniauth_params[:omniauth_secret])
-    auth_info = os.get_info
-    if auth_info.nil?
-      render forbidden_page('認證失敗')
-    else
-      render ok_page(auth_info)
-    end
   end
 
   private
@@ -37,31 +24,28 @@ class OmniauthsController < Devise::OmniauthCallbacksController
 
   def verify_auth_info!
     @auth_info = request.env['omniauth.auth']
-    redirect_to(account_profile_path, alert: '認證失敗') && return if @auth_info.nil?
+    redirect_to(account_profile_path, alert: '認證失敗') and return if @auth_info.nil?
   end
 
   def verify_email!
     @email = @auth_info['info']['email']
-    redirect_to(account_profile_path, alert: '缺少信箱，認證失敗') && return if @email.nil?
+    redirect_to(account_profile_path, alert: '缺少信箱，認證失敗') and return if @email.blank?
   end
 
   def omniauth_core
-    if signed_in?
-      binding_identity
-    else
-      user = User.find_or_create_identity_with_auth_info(@auth_info)
-      sign_in(:user, user)
-      redirect_to account_profile_path, notice: '連結成功'
-    end
+    binding_identity and return if signed_in?
+    user = User.find_or_create_identity_with_auth_info(@auth_info)
+    sign_in(:user, user)
+    redirect_to account_profile_path, notice: '連結成功'
   end
 
   def binding_identity
     if current_user.email == @email
-      user = current_user.find_or_create_identity_with_auth_info(@auth_info)
-      redirect_to account_profile_path, notice: "成功連結至 #{user.email}"
+      user = User.find_or_create_identity_with_auth_info(@auth_info)
+      redirect_to(account_profile_path, notice: "成功連結至 #{user.email}")
     else
       message = "第三方信箱 #{@email} 與 #{current_user.email} 不一致，連結失敗"
-      redirect_to account_profile_path, alert: message
+      redirect_to(account_profile_path, alert: message)
     end
   end
 end
