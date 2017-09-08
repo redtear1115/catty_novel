@@ -26,7 +26,7 @@ describe 'Read novel process', type: :feature do
     expect(page).to have_content @chapter1.content
   end
 
-  it 'should got to end_page' do
+  it 'should go to end_page' do
     visit root_path
     click_link '閱讀'
     click_link '上一章', match: :first

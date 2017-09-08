@@ -10,7 +10,7 @@ describe 'Add collection process', type: :feature do
     login_as(@user, scope: :user)
   end
 
-  it 'should add collection successfully' do
+  it 'should add collection successful' do
     visit novels_path
     click_button '加入收藏'
     expect(page).to have_content '收藏建立成功'
@@ -25,7 +25,7 @@ describe 'Add collection process', type: :feature do
     expect(page).to have_content '收藏建立失敗'
   end
 
-  it 'should delete collection successfully' do
+  it 'should delete collection successful' do
     @user.add_to_collection(@novel)
 
     visit root_path

@@ -7,7 +7,7 @@ describe 'Add novel process', type: :feature do
     login_as(user, scope: :user)
   end
 
-  it 'should add novel successfully' do
+  it 'should add novel successful' do
     good_novel_url = attributes_for(:novel)[:source_url]
 
     visit new_novel_path
