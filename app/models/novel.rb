@@ -27,6 +27,10 @@ class Novel < ApplicationRecord
     end
   end
 
+  def sync_chapter
+    CrawlChapterService.new.sync self
+  end
+
   def self.create_with_params(params)
     sh = SourceHost.find_by(id: params[:source_host_id])
     return if sh.nil?

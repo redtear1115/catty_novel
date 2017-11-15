@@ -1,16 +1,22 @@
 <div id="operation">
-<h2>收藏</h2>
-<table class="table table-striped table-hover table-border">
-<% @collections.each do |collection| %>
-  <tr>
-    <% if collection.novel.present? %>
-    <td>[<%= collection.novel.catgory%>] <%= collection.novel.author%> - <%= collection.novel.name%> (<%= collection.last_read_chapter_number%>/<%= collection.novel.max_chapter_number%>)</td>
-    <td class="colleciton-actions">
-      <%=link_to("閱讀", read_path(novel_id: collection.novel.id)) %> |
-      <%=link_to("移除", collection_path(id: collection.id), method: :delete) %>
-    </td>
+  <h2>收藏</h2>
+  <table class="table table-striped table-hover table-border">
+    <% @collections.each do |collection| %>
+    <% next if collection.novel.nil? %>
+      <tr>
+        <td class="colleciton-actions">
+          <%=link_to("X", collection_path(id: collection.id), method: :delete) %>
+        </td>
+        <td>
+          [<%= collection.novel.catgory%>]
+          <%= collection.novel.author%> -
+          <%= collection.novel.name%>
+          (<%= collection.last_read_chapter_number%>/<%= collection.novel.max_chapter_number%>)
+        </td>
+        <td class="colleciton-actions">
+          <%=link_to("閱讀", read_path(novel_id: collection.novel.id)) %>
+        </td>
+      </tr>
     <% end %>
-  </tr>
-<% end %>
-</table>
+  </table>
 </div>
