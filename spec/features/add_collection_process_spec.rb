@@ -29,7 +29,7 @@ describe 'Add collection process', type: :feature do
     @user.add_to_collection(@novel)
 
     visit root_path
-    click_link 'X'
+    first('.delete').click
     expect(page).to have_content '收藏刪除成功'
   end
 end
