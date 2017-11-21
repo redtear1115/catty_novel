@@ -10,6 +10,28 @@ class Novel < ApplicationRecord
   scope :finished, -> { where(status: '已完結') }
   scope :in_progress, -> { where(status: '連載中') }
 
+  def self.create_with_params(params)
+    sh = SourceHost.find_by(id: params[:source_host_id])
+    return if sh.nil?
+    return unless sh.valid_url?(params[:source_url])
+
+    novel_attrs = CrawlNovelService.new.crawl_attrs(sh, params[:source_url])
+    return if novel_attrs.nil?
+
+    novel = Novel.new(source_url: params[:source_url], source_host: sh)
+    novel.assign_attributes(novel_attrs)
+    novel.save!
+    CrawlChapterWorker.perform_async(novel.id)
+    novel
+  end
+
+  def self.renew_unpublish
+    self.unpublish.each do |novel|
+      novel.sync_chapter
+      novel.publish!
+    end
+  end
+
   def in_collection?(user)
     collection = user.collections.find_by(novel_id: id)
     collection.present? ? true : false
@@ -31,20 +53,8 @@ class Novel < ApplicationRecord
     CrawlChapterService.new.sync self
   end
 
-  def self.create_with_params(params)
-    sh = SourceHost.find_by(id: params[:source_host_id])
-    return if sh.nil?
-    return unless sh.valid_url?(params[:source_url])
-
-    novel_attrs = CrawlNovelService.new.crawl_attrs(sh, params[:source_url])
-    return if novel_attrs.nil?
-
-    novel = Novel.new
-    novel.assign_attributes(novel_attrs)
-    novel.source_url = params[:source_url]
-    novel.source_host = sh
-    novel.save!
-    CrawlChapterWorker.perform_async(novel.id)
-    novel
+  def publish!
+    self.is_publish = true
+    self.save!
   end
 end
