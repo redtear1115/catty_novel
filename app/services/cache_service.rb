@@ -18,4 +18,8 @@ module CacheService
     $redis.expire(key, expires_time)
     $redis.get(key).to_i
   end
+
+  def self.clear_max_chapter_number(novel_id)
+    $redis.del("novel:#{novel_id}:max")
+  end
 end
