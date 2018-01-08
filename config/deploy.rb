@@ -25,7 +25,7 @@ set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:deploy_dir)}/#{fetch(:applicatio
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, 'config/database.yml', 'config/secrets.yml'
+# append :linked_files, []
 
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/assets'
@@ -36,3 +36,5 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/asse
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 set :keep_assets, 5
+
+set :openssl_pass, ENV['OPENSSL_PASS']

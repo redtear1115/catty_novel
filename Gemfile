@@ -78,6 +78,8 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-twitter'
 # A LinkedIn OAuth2 strategy for OmniAuth.
 gem 'omniauth-linkedin-oauth2'
+# Keep all your secret files within openssl
+gem 'secret-keeper'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and debugger
