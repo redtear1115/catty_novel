@@ -15,7 +15,7 @@ class Novel < ApplicationRecord
     return if sh.nil?
     return unless sh.valid_url?(params[:source_url])
 
-    novel_attrs = CrawlNovelService.new.crawl_attrs(sh, params[:source_url])
+    novel_attrs = CrawlNovelService.new.crawl_attrs(params[:source_url])
     return if novel_attrs.nil?
 
     novel = Novel.new(source_url: params[:source_url], source_host: sh)

@@ -54,8 +54,11 @@ class CrawlChapterService
   end
 
   def read_to_html(url)
-    response_body = Net::HTTP.get(URI.parse(url))
-    Nokogiri::HTML(response_body.force_encoding('utf-8'))
+    header = {
+      'accept-language' => 'zh-TW'
+    }
+    response_file = open(url, header)
+    Nokogiri::HTML(response_file)
   rescue => e
     Rails.logger.error("Open url fail: #{e}")
   end

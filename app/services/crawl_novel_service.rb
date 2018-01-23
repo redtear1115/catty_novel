@@ -9,8 +9,8 @@ class CrawlNovelService
     insert_novel(source_host)
   end
 
-  def crawl_attrs(_source_host, source_url)
-    html = read_to_html(source_url)
+  def crawl_attrs(url)
+    html = read_to_html(url)
     thread_subject = html.at_css('header #thread_subject')
     return if thread_subject.nil?
     return cast_to_attrs(thread_subject.content)
@@ -46,8 +46,11 @@ class CrawlNovelService
   end
 
   def read_to_html(url)
-    response_body = Net::HTTP.get(URI.parse(url))
-    Nokogiri::HTML(response_body.force_encoding('utf-8'))
+    header = {
+      'accept-language' => 'zh-TW'
+    }
+    response_file = open(url, header)
+    Nokogiri::HTML(response_file)
   rescue => e
     Rails.logger.error("Open url fail: #{e}")
   end
