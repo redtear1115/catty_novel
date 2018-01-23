@@ -13,6 +13,6 @@ class SourceHost < ApplicationRecord
     allowed_hash = {
       'https://ck101.com/forum-237-1.html' => /https:\/\/ck101\.com\/thread-\d*-1-1\.html/
     }
-    allowed_hash[url]
+    allowed_hash[self.url]
   end
 end

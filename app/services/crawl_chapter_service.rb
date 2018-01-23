@@ -12,7 +12,7 @@ class CrawlChapterService
 
   def target_urls(novel, full = false)
     return [] if novel.source_url.nil?
-    html = Nokogiri::HTML(open(novel.source_url))
+    html = read_to_html(novel.source_url)
     last_page_ele = html.css('.pgt .pg a')[-2]
     last_page_num = last_page_ele.content.gsub(/\D/, '').to_i
     loop_times = full ? last_page_num : calc_loop_times(last_page_num, novel.last_sync_url)
@@ -24,11 +24,11 @@ class CrawlChapterService
   private
 
   def insert_chapter(novel, url)
-    html = Nokogiri::HTML(open(url))
+    html = read_to_html(url)
     post_list = html.css('#postlist .plhin')
     post_list.each do |post_item|
-      post_number = post_item.css('.postNum em').first.content.to_i
-      post = post_item.css('.t_f').first
+      post_number = post_item.at_css('.postNum em').content.to_i
+      post = post_item.at_css('.t_f')
       chapter = novel.chapters.find_or_create_by(external_id: post['id'], number: post_number)
       chapter.update(content: post.content)
     end
@@ -51,5 +51,12 @@ class CrawlChapterService
       target_urls << splited_url.map(&:to_s).join('-')
     end
     target_urls
+  end
+
+  def read_to_html(url)
+    response_body = Net::HTTP.get(URI.parse(url))
+    Nokogiri::HTML(response_body.force_encoding('utf-8'))
+  rescue => e
+    Rails.logger.error("Open url fail: #{e}")
   end
 end
