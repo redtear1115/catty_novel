@@ -29,8 +29,8 @@ class CrawlChapterService
     post_list.each do |post_item|
       post_number = post_item.at_css('.postNum em').content.to_i
       post = post_item.at_css('.t_f')
-      chapter = novel.chapters.find_or_create_by(external_id: post['id'], number: post_number)
-      chapter.update(content: post.content)
+      chapter = novel.chapters.find_or_create_by(number: post_number)
+      chapter.update(content: post.content, external_id: post['id'])
     end
     return  novel.update(last_sync_url: url)
   rescue => e
