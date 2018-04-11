@@ -16,13 +16,22 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-/node_modules/*
-/public/packs/*
 
-# Ignore Byebug command history file.
+# Ignore uploaded files in development
+/storage/*
+
+/node_modules
+/yarn-error.log
+
+/public/assets
 .byebug_history
+
+
 /coverage/*
 
-# Ignore private file.
-config/secrets.yml
-config/database.yml
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+/config/database.yml
+/config/secrets.yml
+
+.DS_Store

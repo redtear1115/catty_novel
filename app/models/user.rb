@@ -12,13 +12,13 @@ class User < ApplicationRecord
 
   def self.find_or_create_identity_with_auth_info(raw_auth_info)
     indentity_attrs = Identity.to_attrs(raw_auth_info)
-    user = self.find_or_initialize_by(email: indentity_attrs[:email])
+    user = find_or_initialize_by(email: indentity_attrs[:email])
     user.fast_setup(indentity_attrs[:name]) if user.new_record?
     user.update_identity(indentity_attrs)
   end
 
   def update_identity(indentity_attrs)
-    identity = self.identities.find_or_initialize_by(provider: indentity_attrs[:provider], uid: indentity_attrs[:uid])
+    identity = identities.find_or_initialize_by(provider: indentity_attrs[:provider], uid: indentity_attrs[:uid])
     identity.assign_attributes(indentity_attrs)
     identity.save!
     identity.user
@@ -37,7 +37,6 @@ class User < ApplicationRecord
     self.name = new_name
     self.password = random_password
     self.password_confirmation = random_password
-    self.save!
+    save!
   end
-
 end

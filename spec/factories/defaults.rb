@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :source_host, class: SourceHost do
     url 'https://ck101.com/forum-237-1.html'
     name '卡提諾論壇::小說::長篇小說'

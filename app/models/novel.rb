@@ -26,7 +26,7 @@ class Novel < ApplicationRecord
   end
 
   def self.renew_unpublish
-    self.unpublish.each do |novel|
+    unpublish.each do |novel|
       novel.sync_chapter
       novel.publish!
     end
@@ -55,6 +55,6 @@ class Novel < ApplicationRecord
 
   def publish!
     self.is_publish = true
-    self.save!
+    save!
   end
 end

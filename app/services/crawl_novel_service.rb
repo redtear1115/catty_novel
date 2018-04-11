@@ -13,7 +13,7 @@ class CrawlNovelService
     html = read_to_html(url)
     thread_subject = html.at_css('header #thread_subject')
     return if thread_subject.nil?
-    return cast_to_attrs(thread_subject.content)
+    cast_to_attrs(thread_subject.content)
   end
 
   private
@@ -49,9 +49,9 @@ class CrawlNovelService
     header = {
       'accept-language' => 'zh-TW'
     }
-    response_file = open(url, header)
+    response_file = Kernel.open(url, header)
     Nokogiri::HTML(response_file)
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error("Open url fail: #{e}")
   end
 end

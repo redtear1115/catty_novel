@@ -58,7 +58,7 @@ class CollectionsController < ApplicationController
   def find_chapter
     return @novel.chapters.find_by(number: permitted_params[:chapter_number]) if permitted_params[:chapter_number].present?
     return @novel.chapters.find_by(id: @collection.last_read_chapter) if @collection.last_read_chapter.present?
-    return @novel.chapters.first
+    @novel.chapters.first
   end
 
   def to_end_page?

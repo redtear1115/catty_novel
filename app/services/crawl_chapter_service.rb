@@ -16,8 +16,8 @@ class CrawlChapterService
     last_page_ele = html.css('.pgt .pg a')[-2]
     last_page_num = last_page_ele.content.gsub(/\D/, '').to_i
     loop_times = full ? last_page_num : calc_loop_times(last_page_num, novel.last_sync_url)
-    return calc_urls(loop_times, novel.last_sync_url)
-  rescue => e
+    calc_urls(loop_times, novel.last_sync_url)
+  rescue StandardError => e
     Rails.logger.info("Nokogiri parse fail: #{e}")
   end
 
@@ -32,8 +32,8 @@ class CrawlChapterService
       chapter = novel.chapters.find_or_create_by(number: post_number)
       chapter.update(content: post.content, external_id: post['id'])
     end
-    return  novel.update(last_sync_url: url)
-  rescue => e
+    novel.update(last_sync_url: url)
+  rescue StandardError => e
     novel.update(is_publish: false)
     Rails.logger.info("Nokogiri parse fail: #{e}")
   end
@@ -57,9 +57,9 @@ class CrawlChapterService
     header = {
       'accept-language' => 'zh-TW'
     }
-    response_file = open(url, header)
+    response_file = Kernel.open(url, header)
     Nokogiri::HTML(response_file)
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error("Open url fail: #{e}")
   end
 end

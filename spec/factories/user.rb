@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :good_user, class: User do
     email 'good_user@catty-novel.cc'
     password 'password'

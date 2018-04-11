@@ -8,8 +8,11 @@ class OmniauthsController < Devise::OmniauthCallbacksController
   include ApiReturnPageHelper
 
   def facebook; end
+
   def google_oauth2; end
+
   def twitter; end
+
   def linkedin; end
 
   def failure
@@ -24,16 +27,16 @@ class OmniauthsController < Devise::OmniauthCallbacksController
 
   def verify_auth_info!
     @auth_info = request.env['omniauth.auth']
-    redirect_to(account_profile_path, alert: '認證失敗') and return if @auth_info.nil?
+    redirect_to(account_profile_path, alert: '認證失敗') && return if @auth_info.nil?
   end
 
   def verify_email!
     @email = @auth_info['info']['email']
-    redirect_to(account_profile_path, alert: '缺少信箱，認證失敗') and return if @email.blank?
+    redirect_to(account_profile_path, alert: '缺少信箱，認證失敗') && return if @email.blank?
   end
 
   def omniauth_core
-    binding_identity and return if signed_in?
+    binding_identity && return if signed_in?
     user = User.find_or_create_identity_with_auth_info(@auth_info)
     sign_in(:user, user)
     redirect_to account_profile_path, notice: '連結成功'

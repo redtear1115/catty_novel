@@ -26,9 +26,9 @@ class OmniauthService
     hash = Oj.load(response)
     return nil if hash['error'].present?
     { id: hash['id'], email: hash['email'], name: hash['name'] }
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error("omniauth error:#{e}")
-    return nil
+    nil
   end
 
   def get_info_from_google_oauth2
@@ -37,9 +37,9 @@ class OmniauthService
     hash = Oj.load(response)
     return nil if hash['error'].present?
     { id: hash['id'], email: hash['emails'].first['value'], name: hash['displayName'] }
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error("omniauth error:#{e}")
-    return nil
+    nil
   end
 
   def get_info_from_twitter
@@ -49,9 +49,9 @@ class OmniauthService
     hash = Oj.load(response.body)
     return nil if hash['errors'].present?
     { id: hash['id'], email: hash['email'], name: hash['name'] }
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error("omniauth error:#{e}")
-    return nil
+    nil
   end
 
   def get_info_from_linkedin
@@ -60,9 +60,9 @@ class OmniauthService
     hash = Oj.load(response)
     return nil if hash['status'].present?
     { id: hash['id'], email: hash['emailAddress'], name: hash['formattedName'] }
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error("omniauth error:#{e}")
-    return nil
+    nil
   end
 
   private

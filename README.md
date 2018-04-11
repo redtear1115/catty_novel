@@ -26,7 +26,7 @@ Host on AWS http://catty-nove.ml/
 * redis-server
 
 ### Ruby version
-* ruby-2.3.3
+* ruby-2.5.1
 
 ### Ruby Gemset
 * catty_novel
