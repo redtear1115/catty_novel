@@ -1,18 +1,13 @@
 language: ruby
 branches:
   only:
-  - master
+    - master
 rvm:
   - 2.5.1
 services:
   - redis-server
-before_install:
-- openssl aes-256-cbc -pass $secret_password -in .encrypts/database.yml.enc -out config/database.yml -d
-- openssl aes-256-cbc -pass $secret_password -in .encrypts/secrets.yml.enc -out config/secrets.yml -d
 script:
-- bundle exec rake db:create
-- bundle exec rake db:migrate
-- bundle exec rspec spec/*
-env:
-  global:
-    secure: ia1/Ujkf0gMAihgi8+diYjg2/fPHpHyzeQJDe7FEwCHwgg1gyhIn+vDCKc0MIst4pUQM3T8Y0DNi+cZCZ4ioRnl21oTHT4pIzmXzEpmy6oBmWkgcBuz0CJmpzHzbKqinM65fG5SRxQc5M2aONd/kE2cX03TTDy8JOIXhVIFSAU2cF/93/ZcETPvzml+tqSWxkh6dzIt655LslmnqAOGAeaQQcaZ4s6hZIUKhHdiOpOXPMgHg06HYlF2fxjoDrxIrKSt6vcrEzcbnULIeC3it9za9CSvFN0vWAN74iDllLC+l4aeXdLKmZ3wJdBsIDxnetAfab7M2h9Y9ssurLjvaNR+21hXx3BOWec0KjnktSIsoSt73CQnrknq/yh5q94Gpi/6Ejs1dJQLQOMzcUObPkYXqIDii3XIm4ausHebHFaXdgt1UZxmOAa2Rw+NPHPDjLdPS1cD6XcDylgTCxoRbbRspwt6cuSaVChGs9GksHYXfzoTDBInIEkaS3ReA8IvKbKcgSKGIPyfpIOkECiOdY8rILZxNuzbV6xdd+PRgKHsNJVfWvMMO8wpCuAzp9czdU1U/Fh7/TWbhB46xLosscGQrWmzfeFxR4iDbS/LqMsA9jt4DCQ0OVH+S4egOHf1C6M4L+4UQAbgIYcj7StiOSA9wWqNtx0PhQ02lOsi1pDI=
+  - bundle exec rake config:decrypt_files
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rspec spec/*
